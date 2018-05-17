@@ -5,6 +5,10 @@ using UnityEngine;
 public class GameGrid : MonoBehaviour {
 
 
+	GameObject pathLine;
+	LineRenderer lr;
+
+
 	public Transform player;
 
 	public LayerMask unwalkableMask;
@@ -16,10 +20,21 @@ public class GameGrid : MonoBehaviour {
 	int gridSizeX, gridSizeY;
 
 	void Start() {
+		pathLine = new GameObject ();
+		pathLine.transform.position = player.position;
+		pathLine.AddComponent<LineRenderer> ();
+		lr = pathLine.GetComponent<LineRenderer> ();
+		lr.startWidth = 0.1f;
+		lr.endWidth = 0.1f;
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
 		CreateGrid ();
+	}
+
+	void Update() {
+		DrawPath ();
+
 	}
 
 	void CreateGrid() {
@@ -54,9 +69,16 @@ public class GameGrid : MonoBehaviour {
 		return neighbours;
 	}
 
+
+	/*
 	public Node NodeFromWorldPoint(Vector3 worldPosition) {
-		float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-		float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+		//float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
+		//float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+
+
+		float percentX = (worldPosition.x - transform.position.x) / gridWorldSize.x + 0.5f;
+		float percentY = (worldPosition.z - transform.position.z) / gridWorldSize.y + 0.5f;﻿
+
 		percentX = Mathf.Clamp01 (percentX);
 		percentY = Mathf.Clamp01 (percentY);
 
@@ -64,6 +86,20 @@ public class GameGrid : MonoBehaviour {
 		int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
 		return grid [x, y];
 	}
+	*/
+	public Node NodeFromWorldPoint(Vector3 _worldPosition)
+	{
+		float posX = ((_worldPosition.x - transform.position.x) + gridWorldSize.x * 0.5f) / nodeDiameter;
+		float posY = ((_worldPosition.z - transform.position.z) + gridWorldSize.y * 0.5f) / nodeDiameter;
+
+		posX = Mathf.Clamp(posX, 0, gridWorldSize.x - 1);
+		posY = Mathf.Clamp(posY, 0, gridWorldSize.y - 1);
+
+		int x = Mathf.FloorToInt(posX);
+		int y = Mathf.FloorToInt(posY);
+
+		return grid[x, y];
+	}﻿
 
 	public List<Node> path;
 
@@ -83,6 +119,27 @@ public class GameGrid : MonoBehaviour {
 					Gizmos.color = Color.cyan;
 				}
 				Gizmos.DrawCube (n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+			}
+		}
+	}
+
+	void DrawPath() {
+
+		Node n;
+
+		if (lr != null) {
+			if (path != null) {
+				lr.positionCount = path.Count + 1;
+				lr.SetPosition (0, player.position);
+			}
+		}
+		if (grid != null) {
+			if (path != null) {
+				
+				for (int i = 0; i < path.Count; i++) {
+					n = path [i];
+					lr.SetPosition (i+1, n.worldPosition);
+				}
 			}
 		}
 	}

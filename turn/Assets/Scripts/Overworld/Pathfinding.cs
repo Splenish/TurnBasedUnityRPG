@@ -15,7 +15,16 @@ public class Pathfinding : MonoBehaviour {
 	}
 
 	void Update() {
-		FindPath (seeker.position, target.position);
+		//FindPath (seeker.position, target.position);
+		//FindPath (seeker.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+		if (Input.GetMouseButtonDown(0)){ // if left button pressed...
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
+				FindPath (seeker.position, hit.point);
+			}
+		}
 	}
 
 	void FindPath(Vector3 startPos, Vector3 targetPos) {
