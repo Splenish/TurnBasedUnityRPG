@@ -13,7 +13,7 @@ public class Pathfinding : MonoBehaviour {
 
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
-		currentUnit = GameObject.Find ("Seeker");
+		currentUnit = GameObject.Find ("Player");
 	}
 
 	void Update() {
