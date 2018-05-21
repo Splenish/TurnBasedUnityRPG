@@ -8,6 +8,7 @@ public class GameGrid : MonoBehaviour {
 	GameObject pathLine;
 	LineRenderer lr;
 
+	public Material pathLineMat;
 
 	public Transform player;
 
@@ -24,8 +25,13 @@ public class GameGrid : MonoBehaviour {
 		pathLine.transform.position = player.position;
 		pathLine.AddComponent<LineRenderer> ();
 		lr = pathLine.GetComponent<LineRenderer> ();
-		lr.startWidth = 0.1f;
-		lr.endWidth = 0.1f;
+
+		lr.material = pathLineMat;
+
+		lr.startWidth = 0.2f;
+		lr.endWidth = 0.2f;
+		lr.useWorldSpace = true;
+
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);

@@ -7,11 +7,13 @@ public class Pathfinding : MonoBehaviour {
 
 	public Transform seeker, target;
 
+	GameObject currentUnit;
 
 	GameGrid grid;
 
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
+		currentUnit = GameObject.Find ("Player");
 	}
 
 	void Update() {
@@ -23,6 +25,7 @@ public class Pathfinding : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
 				FindPath (seeker.position, hit.point);
+				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
 			}
 		}
 	}
