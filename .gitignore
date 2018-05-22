@@ -36,4 +36,4 @@ sysinfo.txt
 *.unitypackage
 turn/Assets/Materials.meta
 *.meta
-turn/Assets/Scenes/OverWorld/OverWorld.unity.meta
+turn/Assets/Scenes/OverWorld/OverWorld.unity
