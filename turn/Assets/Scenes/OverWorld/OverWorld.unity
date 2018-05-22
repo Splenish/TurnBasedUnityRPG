@@ -538,7 +538,7 @@ Prefab:
         type: 2}
       propertyPath: seeker
       value: 
-      objectReference: {fileID: 689372526}
+      objectReference: {fileID: 1455704513}
     - target: {fileID: 114617481291198340, guid: 2d7d694061407e64fa0e692637555b1a,
         type: 2}
       propertyPath: target
@@ -659,6 +659,7 @@ Prefab:
   m_IsPrefabParent: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &676711480
 Prefab:
   m_ObjectHideFlags: 0
@@ -733,6 +734,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
   m_IsPrefabParent: 0
+=======
+>>>>>>> parent of 21ad24d... Map movement now working. Replaced the player capsule with a placeholder model.
 =======
 >>>>>>> parent of 21ad24d... Map movement now working. Replaced the player capsule with a placeholder model.
 --- !u!1001 &686682824
@@ -820,7 +823,7 @@ Prefab:
         type: 2}
       propertyPath: PlayerTransform
       value: 
-      objectReference: {fileID: 689372526}
+      objectReference: {fileID: 1455704513}
     - target: {fileID: 114039990906600324, guid: e39141b72ad0f2c4cb8f12620cb3e66d,
         type: 2}
       propertyPath: SmoothFactor
