@@ -10,22 +10,25 @@ public class Pathfinding : MonoBehaviour {
 
 	GameObject currentUnit;
 
+	GameObject gm;
+
 	GameGrid grid;
 
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
 		currentUnit = GameObject.Find ("Player");
+		gm = GameObject.Find ("GameManager");
 	}
 
 	void Update() {
-
-		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject()){ // if left button pressed...
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn){ // if left button pressed...
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
 				FindPath (seeker.position, hit.point);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
-				currentUnit.GetComponent<Unit> ().firstMove = true;
+				//currentUnit.GetComponent<Unit> ().firstMove = true;
 			}
 		}
 	}

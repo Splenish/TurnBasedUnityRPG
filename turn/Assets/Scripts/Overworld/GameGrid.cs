@@ -139,6 +139,7 @@ public class GameGrid : MonoBehaviour {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		if (gs == GameManager.GameState.myTurn) {
 			if (lr != null) {
+				lr.gameObject.SetActive(true);
 				if (path != null) {
 					lr.positionCount = path.Count + 1;
 					lr.SetPosition (0, player.position);
@@ -153,6 +154,8 @@ public class GameGrid : MonoBehaviour {
 					}
 				}
 			}
+		} else {
+			lr.gameObject.SetActive(false);
 		}
 	}
 
