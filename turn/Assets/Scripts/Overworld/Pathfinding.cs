@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Pathfinding : MonoBehaviour {
 
@@ -17,15 +18,14 @@ public class Pathfinding : MonoBehaviour {
 	}
 
 	void Update() {
-		//FindPath (seeker.position, target.position);
-		//FindPath (seeker.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-		if (Input.GetMouseButtonDown(0)){ // if left button pressed...
+		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject()){ // if left button pressed...
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
 				FindPath (seeker.position, hit.point);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+				currentUnit.GetComponent<Unit> ().firstMove = true;
 			}
 		}
 	}
@@ -86,6 +86,8 @@ public class Pathfinding : MonoBehaviour {
 
 		grid.path = path;
 
+		//Debug.Log (path.Count);
+
 	}
 
 	int GetDistance(Node nodeA, Node nodeB) {
@@ -95,8 +97,8 @@ public class Pathfinding : MonoBehaviour {
 		if (distX > distY) {
 			return 14 * distY + 10 * (distX - distY);
 		}
-		
+
 		return 14 * distX + 10 * (distY - distX);
-		
+
 	}
 }

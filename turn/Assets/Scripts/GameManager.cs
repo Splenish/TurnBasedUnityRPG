@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState
     {
         get { return currentGameState; }
+		set { currentGameState = value; }
     }
     // Use this for initialization
     void Start()
