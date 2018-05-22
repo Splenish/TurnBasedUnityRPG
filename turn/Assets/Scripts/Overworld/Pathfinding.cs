@@ -17,14 +17,15 @@ public class Pathfinding : MonoBehaviour {
 	}
 
 	void Update() {
+		//FindPath (seeker.position, target.position);
+		//FindPath (seeker.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving){ // if left button pressed...
+		if (Input.GetMouseButtonDown(0)){ // if left button pressed...
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
 				FindPath (seeker.position, hit.point);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
-				currentUnit.GetComponent<Unit> ().firstMove = true;
 			}
 		}
 	}
@@ -84,8 +85,6 @@ public class Pathfinding : MonoBehaviour {
 		path.Reverse ();
 
 		grid.path = path;
-
-		//Debug.Log (path.Count);
 
 	}
 
