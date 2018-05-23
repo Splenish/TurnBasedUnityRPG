@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1198555086986338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: -28.5
+      value: 49.2
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.4916687
-      value: -28.2
+      value: 49.3
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1.012203
-      value: -28.5
+      value: 49.2
       inSlope: 0
       outSlope: 0
       tangentMode: 0
