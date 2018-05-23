@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameGrid : MonoBehaviour {
 
+	GameObject gm;
 
 	GameObject pathLine;
 	LineRenderer lr;
@@ -36,6 +37,8 @@ public class GameGrid : MonoBehaviour {
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
 		CreateGrid ();
+
+		gm = GameObject.Find ("GameManager");
 	}
 
 	void Update() {
@@ -109,6 +112,7 @@ public class GameGrid : MonoBehaviour {
 
 	public List<Node> path;
 
+	/*
 	void OnDrawGizmos() {
 		Gizmos.DrawWireCube (transform.position, new Vector3 (gridWorldSize.x, 1, gridWorldSize.y));
 
@@ -127,26 +131,31 @@ public class GameGrid : MonoBehaviour {
 				Gizmos.DrawCube (n.worldPosition, Vector3.one * (nodeDiameter - .1f));
 			}
 		}
-	}
+	}*/
 
 	void DrawPath() {
 
 		Node n;
-
-		if (lr != null) {
-			if (path != null) {
-				lr.positionCount = path.Count + 1;
-				lr.SetPosition (0, player.position);
-			}
-		}
-		if (grid != null) {
-			if (path != null) {
-				
-				for (int i = 0; i < path.Count; i++) {
-					n = path [i];
-					lr.SetPosition (i+1, n.worldPosition);
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		if (gs == GameManager.GameState.myTurn) {
+			if (lr != null) {
+				lr.gameObject.SetActive(true);
+				if (path != null) {
+					lr.positionCount = path.Count + 1;
+					lr.SetPosition (0, player.position);
 				}
 			}
+			if (grid != null) {
+				if (path != null) {
+				
+					for (int i = 0; i < path.Count; i++) {
+						n = path [i];
+						lr.SetPosition (i + 1, n.worldPosition);
+					}
+				}
+			}
+		} else {
+			lr.gameObject.SetActive(false);
 		}
 	}
 
