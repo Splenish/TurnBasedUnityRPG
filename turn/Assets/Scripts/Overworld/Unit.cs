@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour {
 
 	public int moveSpeed;
-	int remainingMovement;
+	public int remainingMovement;
 
 	public bool moving = false;
 
@@ -15,15 +16,19 @@ public class Unit : MonoBehaviour {
 
 	Quaternion rotation;
 
-	GameObject currentUnit;
+	public GameObject currentUnit;
 
-	GameObject gm;
+	public GameObject gm;
 
-	Animator anim;
+	public Animator anim;
 
 	public float rotationSpeed;
 
 	public bool firstMove = true;
+
+	public Text moveText;
+
+	public float animationMoveSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +36,7 @@ public class Unit : MonoBehaviour {
 		currentUnit = GameObject.Find ("Player");
 		anim = currentUnit.GetComponentInChildren<Animator> ();
 		gm = GameObject.Find ("GameManager");
+		moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
 	}
 
 	// Update is called once per frame
@@ -50,11 +56,13 @@ public class Unit : MonoBehaviour {
 		if (remainingMovement <= 0) {
 			moving = false;
 			Debug.Log ("movement loppu");
-			Debug.Log (remainingMovement);
 			return;
 		}
 
 		remainingMovement -= 1;
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		if(gs == GameManager.GameState.myTurn)
+			moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();;
 
 		transform.position = currentPath [0].worldPosition;
 
@@ -68,24 +76,22 @@ public class Unit : MonoBehaviour {
 
 	public void MoveUnitButton() {
 		Debug.Log (remainingMovement);
-		//while(currentPath != null && remainingMovement > 0) {			
-		//MoveToNextTile();
 		if (remainingMovement > 0) {
 			if (!moving && currentPath != null) {
 				if (firstMove) {
-					if(currentPath.Count != 1)
+					if (currentPath.Count != 1) {
 						remainingMovement--;
+						moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
+					}
 					firstMove = false;
 				}
 
 				moving = true;
-
-				//remainingMovement = moveSpeed;
 			}
 		}
 	}
 
-
+	/*
 	public void NextTurn() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 
@@ -93,20 +99,24 @@ public class Unit : MonoBehaviour {
 		case GameManager.GameState.myTurn:
 			Debug.Log ("Playerin vuoro loppuu");
 			gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.enemyTurn;
-			Debug.Log ("Playerin vuoro loppuu");
 			return;
 		case GameManager.GameState.enemyTurn:
 			Debug.Log ("Enemyn vuoro loppuu");
 			gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
 			remainingMovement = moveSpeed;
 			firstMove = true;
+			moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
 			break;
 		}
 	}
-
+	*/
 
 	public void MoveUnit() {
 		if (currentPath != null && moving ) {
+
+			//Debug.Log(Vector3.Distance (transform.position, currentPath [0].worldPosition));
+			//Debug.Log (transform.position);
+			//Debug.Log (currentPath[0].worldPosition);
 
 			if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .2f) {
 				MoveToNextTile ();
@@ -115,21 +125,28 @@ public class Unit : MonoBehaviour {
 			if(currentPath != null)
 				tilePosToMoveTo = currentPath [0].worldPosition;
 
-
-			//transform.position = Vector3.Lerp (transform.position, tilePosToMoveTo, .4f);
 			direction = tilePosToMoveTo - transform.position;
 			direction = Vector3.RotateTowards (transform.forward, direction, rotationSpeed*Time.deltaTime, 0.0f);
 
 			transform.rotation = Quaternion.LookRotation (direction);
 
-			transform.position = Vector3.MoveTowards(transform.position,tilePosToMoveTo,0.2f);
+			transform.position = Vector3.MoveTowards(transform.position,tilePosToMoveTo,animationMoveSpeed);
 
 		}
 
-		if(moving)
+
+		if (moving)
 			anim.SetBool ("isMoving", true);
-		if(!moving)
+		if (!moving)
 			anim.SetBool ("isMoving", false);
+	}
+
+	public void StartTurn() {
+		remainingMovement = moveSpeed;
+		//anim = currentUnit.GetComponentInChildren<Animator> ();
+		moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
+		if(currentPath == null)
+			firstMove = true;
 	}
 
 }

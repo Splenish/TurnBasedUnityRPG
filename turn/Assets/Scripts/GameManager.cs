@@ -5,8 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    //public GameObject PlayerPbject;
+	public GameObject currentUnit;
 
+
+	bool paskanaama = true;
 
     public enum GameState
     {
@@ -30,13 +32,19 @@ public class GameManager : MonoBehaviour
     {
         switch (currentGameState)
         {
-            case GameState.myTurn:
-                //PlayerPbject.GetComponent<move>().moveShit();
-                break;
+		case GameState.myTurn:
+			currentUnit = GameObject.Find ("Player");
+			paskanaama = true;
+			break;
 
-            case GameState.enemyTurn:
-                //enemy.move;
-                break;
+		case GameState.enemyTurn:
+			currentUnit = GameObject.Find ("SkeletonEnemy");
+			if (paskanaama) {
+				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
+				Debug.Log ("start paskaa");
+				paskanaama = false;
+			}
+			break;
         }
     }
 }

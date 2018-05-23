@@ -8,11 +8,13 @@ public class Pathfinding : MonoBehaviour {
 
 	public Transform seeker, target;
 
-	GameObject currentUnit;
+	public GameObject currentUnit;
 
 	GameObject gm;
 
 	GameGrid grid;
+
+	public List<Node> oldPath;
 
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
@@ -22,7 +24,26 @@ public class Pathfinding : MonoBehaviour {
 
 	void Update() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn){ // if left button pressed...
+
+		if (gs == GameManager.GameState.myTurn) {
+			if (currentUnit.name != "Player") {
+				grid.path = null;
+				grid.path = oldPath;
+				currentUnit = GameObject.Find ("Player");
+			}
+		}
+
+		if (gs == GameManager.GameState.enemyTurn) {
+			if (currentUnit.name != "SkeletonEnemy") {
+				oldPath = grid.path;
+				currentUnit = GameObject.Find ("SkeletonEnemy");
+				Debug.Log (currentUnit);
+				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit>().target);
+				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+			}
+		}
+			
+		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
@@ -31,6 +52,7 @@ public class Pathfinding : MonoBehaviour {
 				//currentUnit.GetComponent<Unit> ().firstMove = true;
 			}
 		}
+
 	}
 
 	void FindPath(Vector3 startPos, Vector3 targetPos) {
@@ -104,4 +126,7 @@ public class Pathfinding : MonoBehaviour {
 		return 14 * distX + 10 * (distY - distX);
 
 	}
+
+
+
 }
