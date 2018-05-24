@@ -42,11 +42,11 @@ public class Pathfinding : MonoBehaviour {
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
 			}
 		}
-			
-		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {
+			 
+		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving  && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(ray, out hit) && hit.transform.name=="GridLines"){
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Grid")) && hit.transform.name=="GridLines"){
 				FindPath (seeker.position, hit.point);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
 				//currentUnit.GetComponent<Unit> ().firstMove = true;

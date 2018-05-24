@@ -55,7 +55,6 @@ public class Unit : MonoBehaviour {
 
 		if (remainingMovement <= 0) {
 			moving = false;
-			Debug.Log ("movement loppu");
 			return;
 		}
 
@@ -75,7 +74,6 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void MoveUnitButton() {
-		Debug.Log (remainingMovement);
 		if (remainingMovement > 0) {
 			if (!moving && currentPath != null) {
 				if (firstMove) {

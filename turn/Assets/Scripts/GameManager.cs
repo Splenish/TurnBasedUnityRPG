@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         switch (currentGameState)
         {
 		case GameState.myTurn:
@@ -41,10 +44,16 @@ public class GameManager : MonoBehaviour
 			currentUnit = GameObject.Find ("SkeletonEnemy");
 			if (paskanaama) {
 				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
-				Debug.Log ("start paskaa");
 				paskanaama = false;
 			}
 			break;
         }
     }
+
+	public void StartCombat() {
+		Debug.Log ("vomat");
+		//SceneManager.LoadScene ("fighttoooscennoo");
+	}
 }
+
+

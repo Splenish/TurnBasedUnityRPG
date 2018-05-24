@@ -10,6 +10,11 @@ public class EnemyUnit : Unit {
 
 	GameObject player;
 
+	GameObject aggroTrigger;
+
+	public GameObject grid;
+
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
@@ -17,17 +22,20 @@ public class EnemyUnit : Unit {
 		remainingMovement = moveSpeed;
 		currentUnit = this.gameObject;
 		anim = currentUnit.GetComponent<Animator> ();
+		grid = GameObject.Find ("A*");
+		float combatTriggerSize = grid.GetComponent<GameGrid> ().nodeRadius * aggroRange * 2 - 3;
+		aggroTrigger = gameObject.transform.Find ("CombatTrigger").gameObject;
+		aggroTrigger.transform.localScale = new Vector3 (combatTriggerSize, 1, combatTriggerSize);
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
 		target = player.transform.position;
-
+		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		if (gs == GameManager.GameState.enemyTurn) {
 			if (checkIfInAggrorange ()) {
 				moving = true;
-				//Debug.Log ("REEEEEEEEEEEEEEE");
 				if (firstMove) {
 					remainingMovement--;
 					firstMove = false;
@@ -72,5 +80,11 @@ public class EnemyUnit : Unit {
 		remainingMovement = moveSpeed;
 		firstMove = true;
 	}
+		
 
+	public void PullTrigger(Collider c) {
+		if (c.gameObject.tag == "Player") {
+			gm.GetComponent<GameManager> ().StartCombat ();
+		}
+	}
 }
