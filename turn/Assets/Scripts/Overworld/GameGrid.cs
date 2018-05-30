@@ -21,6 +21,7 @@ public class GameGrid : MonoBehaviour {
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 
+
 	void Start() {
 		pathLine = new GameObject ();
 		pathLine.transform.position = player.position;
@@ -41,9 +42,15 @@ public class GameGrid : MonoBehaviour {
 		gm = GameObject.Find ("GameManager");
 	}
 
-	void Update() {
-		DrawPath ();
+	void LateUpdate() {
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 
+		//if(gs == GameManager.GameState.enemyTurn)
+		//	path = null;
+		
+
+		
+		DrawPath ();
 	}
 
 	void CreateGrid() {
@@ -112,26 +119,6 @@ public class GameGrid : MonoBehaviour {
 
 	public List<Node> path;
 
-	/*
-	void OnDrawGizmos() {
-		Gizmos.DrawWireCube (transform.position, new Vector3 (gridWorldSize.x, 1, gridWorldSize.y));
-
-		if (grid != null) {
-			Node playerNode = NodeFromWorldPoint (player.position);
-			foreach (Node n in grid) {
-				Gizmos.color = (n.walkable) ? Color.white : Color.red;
-				if (path != null) {
-					if (path.Contains (n)) {
-						Gizmos.color = Color.black;
-					}
-				}
-				if (playerNode == n) {
-					Gizmos.color = Color.cyan;
-				}
-				Gizmos.DrawCube (n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-			}
-		}
-	}*/
 
 	void DrawPath() {
 

@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
-    //public GameObject PlayerPbject;
+	public GameObject currentUnit;
 
+
+	bool paskanaama = true;
 
     public enum GameState
     {
@@ -28,15 +31,29 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         switch (currentGameState)
         {
-            case GameState.myTurn:
-                //PlayerPbject.GetComponent<move>().moveShit();
-                break;
+		case GameState.myTurn:
+			currentUnit = GameObject.Find ("Player");
+			paskanaama = true;
+			break;
 
-            case GameState.enemyTurn:
-                //enemy.move;
-                break;
+		case GameState.enemyTurn:
+			currentUnit = GameObject.Find ("SkeletonEnemy");
+			if (paskanaama) {
+				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
+				paskanaama = false;
+			}
+			break;
         }
     }
+
+	public void StartCombat() {
+		Debug.Log ("vomat");
+		//SceneManager.LoadScene ("fighttoooscennoo");
+	}
 }
+
+
