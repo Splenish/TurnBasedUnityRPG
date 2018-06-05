@@ -24,6 +24,11 @@ public class EnemyStateMachine : MonoBehaviour {
 
     // animaatiota  varten
     private Vector3 startPosition;
+    //timeforaction juttuja
+    private bool actionStarted = false;
+    private GameObject HeroToAttack;
+    private float animSpeed = 5f;
+
 
     void Start()
     {
@@ -49,7 +54,7 @@ public class EnemyStateMachine : MonoBehaviour {
                 break;
 
             case (TurnState.Action):
-
+                StartCoroutine(TimeForAction());
                 break;
             case (TurnState.Dead):
 
@@ -76,5 +81,41 @@ public class EnemyStateMachine : MonoBehaviour {
         myAttack.AttackersGameObject = this.gameObject;
         myAttack.AttackersTarget = BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)];
         BSM.CollectActions(myAttack);
+    }
+
+    private IEnumerator TimeForAction()
+    {
+        if (actionStarted)
+        {
+            yield break;
+        }
+
+        actionStarted = true;
+
+        // animaatio enemylle 
+        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-1.5f, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
+        while(MoveTowardsEnemy(heroPosition))
+        {
+            yield return null;
+        }
+        // oota hetki
+        // tee dmg
+
+        // animaatio takas startpositioniin
+
+        // poista performance BSM listasta
+
+        // resettaa BSM -> Wait
+
+        actionStarted = false;
+        // resettaa enemy state
+        cur_cooldown = 0f;
+        currentState = TurnState.Processing;
+
+    }
+
+    private bool MoveTowardsEnemy(Vector3 target)
+    {
+        return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 }

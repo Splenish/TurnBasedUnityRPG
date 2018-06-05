@@ -30,7 +30,10 @@ public class BattleStateMachine : MonoBehaviour {
         switch(battleStates)
         {
             case (PerformAction.Wait):
-
+                if(PerformList.Count > 0)
+                {
+                    battleStates = PerformAction.TakeAction;
+                }
                 break;
             case (PerformAction.TakeAction):
 
