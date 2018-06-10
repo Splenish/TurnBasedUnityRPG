@@ -26,7 +26,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private Vector3 startPosition;
     //timeforaction juttuja
     private bool actionStarted = false;
-    private GameObject HeroToAttack;
+    public GameObject HeroToAttack;
     private float animSpeed = 5f;
 
 
@@ -78,6 +78,7 @@ public class EnemyStateMachine : MonoBehaviour {
     {
         HandleTurn myAttack = new HandleTurn();
         myAttack.Attacker = enemy.name;
+        myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = this.gameObject;
         myAttack.AttackersTarget = BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)];
         BSM.CollectActions(myAttack);
@@ -93,21 +94,31 @@ public class EnemyStateMachine : MonoBehaviour {
         actionStarted = true;
 
         // animaatio enemylle 
-        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-1.5f, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
+        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-0.8f, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
         while(MoveTowardsEnemy(heroPosition))
         {
             yield return null;
         }
         // oota hetki
+        yield return new WaitForSeconds(1f);
         // tee dmg
 
         // animaatio takas startpositioniin
+        Vector3 firstPosition = startPosition;
+        while (MoveTowardsStart(firstPosition))
+        {
+            yield return null;
+        }
 
         // poista performance BSM listasta
+        BSM.PerformList.RemoveAt(0);
 
         // resettaa BSM -> Wait
+        BSM.battleStates = BattleStateMachine.PerformAction.Wait;
 
+        // lopeta coroutine
         actionStarted = false;
+
         // resettaa enemy state
         cur_cooldown = 0f;
         currentState = TurnState.Processing;
@@ -118,4 +129,11 @@ public class EnemyStateMachine : MonoBehaviour {
     {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
+
+    private bool MoveTowardsStart(Vector3 target)
+    {
+        return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
+    }
+
+
 }

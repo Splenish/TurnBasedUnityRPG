@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HeroStateMachine : MonoBehaviour {
 
+    private BattleStateMachine BSM;
     public BaseHero hero;
 
     public enum TurnState
@@ -26,6 +27,7 @@ public class HeroStateMachine : MonoBehaviour {
 
     void Start()
     {
+        BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.Processing;
     }
 
@@ -38,7 +40,8 @@ public class HeroStateMachine : MonoBehaviour {
                 UpgradeProgressBar();
                 break;
             case (TurnState.Addtolist):
-
+                BSM.HeroesToManage.Add(this.gameObject);
+                currentState = TurnState.Waiting;
                 break;
             case (TurnState.Waiting):
 

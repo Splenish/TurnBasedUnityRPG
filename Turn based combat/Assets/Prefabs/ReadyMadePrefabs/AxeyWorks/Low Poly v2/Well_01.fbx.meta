@@ -17,6 +17,7 @@ ModelImporter:
     4300002: Well_01
     6400000: Mesh1
     6400002: Well_01 1
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -94,9 +95,9 @@ ModelImporter:
     preserveHierarchy: 0
     indexFormat: 1
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
+    secondaryUVAreaDistortion: 15
     secondaryUVHardAngle: 88
-    secondaryUVPackMargin: 4
+    secondaryUVPackMargin: 64
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
