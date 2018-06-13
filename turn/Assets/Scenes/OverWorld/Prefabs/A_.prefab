@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b74b6baa803545bd326d96782e377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathLineMat: {fileID: 0}
   player: {fileID: 0}
   unwalkableMask:
     serializedVersion: 2
@@ -71,3 +72,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seeker: {fileID: 0}
   target: {fileID: 0}
+  currentUnit: {fileID: 0}

@@ -33,7 +33,8 @@ public class Unit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		remainingMovement = moveSpeed;
-		currentUnit = GameObject.Find ("Player");
+		//currentUnit = gm.GetComponent<GameManager>().currentUnit;
+		currentUnit = this.gameObject;
 		anim = currentUnit.GetComponentInChildren<Animator> ();
 		gm = GameObject.Find ("GameManager");
 		moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
@@ -143,6 +144,7 @@ public class Unit : MonoBehaviour {
 		remainingMovement = moveSpeed;
 		//anim = currentUnit.GetComponentInChildren<Animator> ();
 		moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
+		gm.GetComponent<GameManager> ().i = 0;
 		if(currentPath == null)
 			firstMove = true;
 	}

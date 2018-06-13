@@ -15,10 +15,13 @@ public class EnemyUnit : Unit {
 	public GameObject grid;
 
 
+	int enemyUnits;
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
+		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Length;
 		remainingMovement = moveSpeed;
 		currentUnit = this.gameObject;
 		anim = currentUnit.GetComponent<Animator> ();
@@ -32,9 +35,15 @@ public class EnemyUnit : Unit {
 	void LateUpdate () {
 		target = player.transform.position;
 		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
+
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		if (gs == GameManager.GameState.enemyTurn) {
+		if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
+			//Debug.Log ("boblet");
+			//Debug.Log (gm.GetComponent<GameManager> ().currentUnit + "EnemyUnitis");
+			//Debug.Log ("EnemyUnit lateUpdate if gs == enemyturn");
+	//		Debug.Log (currentPath.Count);
 			if (checkIfInAggrorange ()) {
+				//Debug.Log ("if aggrorange");
 				moving = true;
 				if (firstMove) {
 					remainingMovement--;
@@ -45,18 +54,27 @@ public class EnemyUnit : Unit {
 				MoveUnit ();
 			} else {
 				//FinishEnemyTurn ();
-				gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-				player.GetComponent<Unit> ().StartTurn ();
-			}
+				//int enemyUnits = gm.GetComponent<GameManager>().enemyUnits.Length;
+				gm.GetComponent<GameManager> ().i++;
+				Debug.Log (gm.GetComponent<GameManager> ().i);
+				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
+					//Debug.Log ("koklet");
+					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+					player.GetComponent<Unit> ().StartTurn ();
+				}	}
 		}
 	}
 
 	bool checkIfInAggrorange() {
+		//Debug.Log ("checkIfInAggrorange alku");
+		//Debug.Log (currentPath);
 		if (currentPath != null) {
+			//Debug.Log ("checkIfInAggrorange if currentPath != null");
 			if (currentPath.Count <= aggroRange) {
-				
+			//Debug.Log ("aggrorange == true");
 				return true;
 			} else {
+			//Debug.Log ("aggrorange == false");
 				return false;
 			}
 		} else {
@@ -67,10 +85,16 @@ public class EnemyUnit : Unit {
 	void FinishEnemyTurn() {
 		if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .02f) {
 			if (remainingMovement >= 0) {
-				gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-				player.GetComponent<Unit> ().StartTurn ();
-				Debug.Log (gm.GetComponent<GameManager> ().CurrentGameState);
-				Debug.Log ("finish enemy turn");
+				gm.GetComponent<GameManager> ().i++;
+				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
+					//Debug.Log ("koklet");
+					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+					player.GetComponent<Unit> ().StartTurn ();
+				}
+				//gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+				//player.GetComponent<Unit> ().StartTurn ();
+				//Debug.Log (gm.GetComponent<GameManager> ().CurrentGameState);
+				//Debug.Log ("finish enemy turn");
 			}
 		}
 
