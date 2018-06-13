@@ -43,7 +43,7 @@ public class GameGrid : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		//GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 
 		//if(gs == GameManager.GameState.enemyTurn)
 		//	path = null;
@@ -121,7 +121,6 @@ public class GameGrid : MonoBehaviour {
 
 
 	void DrawPath() {
-
 		Node n;
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		if (gs == GameManager.GameState.myTurn) {

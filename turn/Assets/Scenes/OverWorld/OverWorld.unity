@@ -290,7 +290,7 @@ Prefab:
     - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
         type: 2}
       propertyPath: moveSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4932137391669510, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_LocalScale.x
@@ -434,7 +434,7 @@ Prefab:
     - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
         type: 2}
       propertyPath: moveSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4932137391669510, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_LocalScale.x

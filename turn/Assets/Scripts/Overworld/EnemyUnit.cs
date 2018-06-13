@@ -32,7 +32,7 @@ public class EnemyUnit : Unit {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
+	void Update () {
 		target = player.transform.position;
 		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
 
