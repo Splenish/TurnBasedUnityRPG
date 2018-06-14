@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
 	public GameObject currentUnit;
 
 
-	bool paskanaama = true;
+	bool enemyTurnStart = true;
+
+	bool playerTurnStart = true;
 
 	public int i = 0;
 
@@ -41,38 +43,26 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         switch (currentGameState)
         {
 		case GameState.myTurn:
 			currentUnit = player;
-			paskanaama = true;
+
+			if (playerTurnStart) {
+				currentUnit.GetComponent<Unit> ().StartTurn ();
+				playerTurnStart = false;
+				enemyTurnStart = true;
+			}
 			break;
 
 		case GameState.enemyTurn:
-			/*for (int i = 0; i < enemyUnits.Length; i++) {
-				currentUnit = enemyUnits [i];
-				if (paskanaama) {
-					Debug.Log (currentUnit + "game managerisa");
-					currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
-					//paskanaama = false;
-				}
-			}
-			*/
-
 			currentUnit = enemyUnits [i];
-			//Debug.Log("enemyUnits[i] = " + enemyUnits [i] + " i = " + i);
 
-			if (paskanaama) {
-				//Debug.Log (currentUnit + "game managerisa");
+			if (enemyTurnStart) {
 				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
-				//paskanaama = false;
+				enemyTurnStart = false;
+				playerTurnStart = true;
 			}
-
-			//currentGameState = GameState.myTurn;
-			//player.GetComponent<Unit> ().StartTurn ();
-			//Debug.Log ("playerturn start");
 			break;
         }
     }

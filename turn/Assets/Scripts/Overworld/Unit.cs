@@ -48,23 +48,26 @@ public class Unit : MonoBehaviour {
 
 	public void MoveToNextTile() {
 
-		//moving = true;
-
 		if (currentPath == null) {			
 			return;
 		}
+
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+
+		remainingMovement--;
+
+		if(gs == GameManager.GameState.myTurn && moveText != null)
+			moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
 
 		if (remainingMovement <= 0) {
 			moving = false;
 			return;
 		}
 
-		remainingMovement -= 1;
-		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		if(gs == GameManager.GameState.myTurn)
-			moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();;
-
+		//Vector3 pos = currentPath [0].worldPosition;
 		transform.position = currentPath [0].worldPosition;
+		//pos.y = Terrain.activeTerrain.SampleHeight (currentPath [0].worldPosition);
+		//transform.position = pos;
 
 		//remove the old current tile
 		currentPath.RemoveAt(0);
@@ -72,6 +75,8 @@ public class Unit : MonoBehaviour {
 			moving = false;
 			currentPath = null;
 		}
+			
+
 	}
 
 	public void MoveUnitButton() {
@@ -79,7 +84,7 @@ public class Unit : MonoBehaviour {
 			if (!moving && currentPath != null) {
 				if (firstMove) {
 					if (currentPath.Count != 1) {
-						remainingMovement--;
+						//remainingMovement--;
 						moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
 					}
 					firstMove = false;
@@ -112,11 +117,7 @@ public class Unit : MonoBehaviour {
 
 	public void MoveUnit() {
 		if (currentPath != null && moving ) {
-
-			//Debug.Log(Vector3.Distance (transform.position, currentPath [0].worldPosition));
-			//Debug.Log (transform.position);
-			//Debug.Log (currentPath[0].worldPosition);
-
+			
 			if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .2f) {
 				MoveToNextTile ();
 			}
@@ -132,8 +133,7 @@ public class Unit : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position,tilePosToMoveTo,animationMoveSpeed);
 
 		}
-
-
+		
 		if (moving)
 			anim.SetBool ("isMoving", true);
 		if (!moving)
@@ -145,6 +145,7 @@ public class Unit : MonoBehaviour {
 		//anim = currentUnit.GetComponentInChildren<Animator> ();
 		moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
 		gm.GetComponent<GameManager> ().i = 0;
+		currentPath = null;
 		if(currentPath == null)
 			firstMove = true;
 	}
