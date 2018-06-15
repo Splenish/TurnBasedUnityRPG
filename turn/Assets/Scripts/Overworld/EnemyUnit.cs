@@ -15,11 +15,14 @@ public class EnemyUnit : Unit {
 	public GameObject grid;
 
 
+	int enemyUnits;
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
-		remainingMovement = moveSpeed;
+		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Length;
+		//remainingMovement = moveSpeed;
 		currentUnit = this.gameObject;
 		anim = currentUnit.GetComponent<Animator> ();
 		grid = GameObject.Find ("A*");
@@ -29,24 +32,30 @@ public class EnemyUnit : Unit {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
+	void Update () {
 		target = player.transform.position;
 		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
+
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		if (gs == GameManager.GameState.enemyTurn) {
+		if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
 			if (checkIfInAggrorange ()) {
 				moving = true;
 				if (firstMove) {
-					remainingMovement--;
+					//remainingMovement--;
 					firstMove = false;
 				}		
 
 				FinishEnemyTurn ();
 				MoveUnit ();
 			} else {
-				//FinishEnemyTurn ();
-				gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-				player.GetComponent<Unit> ().StartTurn ();
+				gm.GetComponent<GameManager> ().i++;
+				remainingMovement = moveSpeed;
+				Debug.Log (gm.GetComponent<GameManager> ().i);
+				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
+					Debug.Log ("koklet");
+					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+					player.GetComponent<Unit> ().StartTurn ();
+				}	
 			}
 		}
 	}
@@ -54,7 +63,6 @@ public class EnemyUnit : Unit {
 	bool checkIfInAggrorange() {
 		if (currentPath != null) {
 			if (currentPath.Count <= aggroRange) {
-				
 				return true;
 			} else {
 				return false;
@@ -66,14 +74,15 @@ public class EnemyUnit : Unit {
 
 	void FinishEnemyTurn() {
 		if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .02f) {
-			if (remainingMovement >= 0) {
-				gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-				player.GetComponent<Unit> ().StartTurn ();
-				Debug.Log (gm.GetComponent<GameManager> ().CurrentGameState);
-				Debug.Log ("finish enemy turn");
+			if (remainingMovement <= 0) {
+				gm.GetComponent<GameManager> ().i++;
+				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
+					Debug.Log ("koklet");
+					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+					player.GetComponent<Unit> ().StartTurn ();
+				}
 			}
 		}
-
 	}
 
 	public void StartEnemyTurn() {

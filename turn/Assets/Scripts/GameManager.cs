@@ -9,7 +9,15 @@ public class GameManager : MonoBehaviour
 	public GameObject currentUnit;
 
 
-	bool paskanaama = true;
+	bool enemyTurnStart = true;
+
+	bool playerTurnStart = true;
+
+	public int i = 0;
+
+	public GameObject[] enemyUnits;
+
+	GameObject player;
 
     public enum GameState
     {
@@ -23,28 +31,37 @@ public class GameManager : MonoBehaviour
 		set { currentGameState = value; }
     }
     // Use this for initialization
-    void Start()
+    void Awake()
     {
+		currentUnit = GameObject.Find ("Player");
         currentGameState = GameState.myTurn;
+		enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
+		player = GameObject.Find ("Player");
+		Debug.Log (enemyUnits.Length);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
         switch (currentGameState)
         {
 		case GameState.myTurn:
-			currentUnit = GameObject.Find ("Player");
-			paskanaama = true;
+			currentUnit = player;
+
+			if (playerTurnStart) {
+				currentUnit.GetComponent<Unit> ().StartTurn ();
+				playerTurnStart = false;
+				enemyTurnStart = true;
+			}
 			break;
 
 		case GameState.enemyTurn:
-			currentUnit = GameObject.Find ("SkeletonEnemy");
-			if (paskanaama) {
+			currentUnit = enemyUnits [i];
+
+			if (enemyTurnStart) {
 				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
-				paskanaama = false;
+				enemyTurnStart = false;
+				playerTurnStart = true;
 			}
 			break;
         }

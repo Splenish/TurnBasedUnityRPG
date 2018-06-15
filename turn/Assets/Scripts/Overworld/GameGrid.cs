@@ -21,6 +21,9 @@ public class GameGrid : MonoBehaviour {
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 
+	public GameObject playerObject;
+
+	int playerSpeed;
 
 	void Start() {
 		pathLine = new GameObject ();
@@ -34,6 +37,9 @@ public class GameGrid : MonoBehaviour {
 		lr.endWidth = 0.2f;
 		lr.useWorldSpace = true;
 
+		playerSpeed = playerObject.GetComponent<Unit> ().remainingMovement;
+
+
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -43,7 +49,7 @@ public class GameGrid : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		//GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 
 		//if(gs == GameManager.GameState.enemyTurn)
 		//	path = null;
@@ -121,13 +127,13 @@ public class GameGrid : MonoBehaviour {
 
 
 	void DrawPath() {
-
 		Node n;
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		if (gs == GameManager.GameState.myTurn) {
+		if (gs == GameManager.GameState.myTurn && playerObject.GetComponent<Unit>().currentPath != null) {
 			if (lr != null) {
 				lr.gameObject.SetActive(true);
 				if (path != null) {
+					//lr.positionCount = playerSpeed + 1;
 					lr.positionCount = path.Count + 1;
 					lr.SetPosition (0, player.position);
 				}
@@ -136,8 +142,8 @@ public class GameGrid : MonoBehaviour {
 				if (path != null) {
 				
 					for (int i = 0; i < path.Count; i++) {
-						n = path [i];
-						lr.SetPosition (i + 1, n.worldPosition);
+							n = path [i];
+							lr.SetPosition (i + 1, n.worldPosition);
 					}
 				}
 			}

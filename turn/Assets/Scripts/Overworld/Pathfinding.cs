@@ -16,6 +16,8 @@ public class Pathfinding : MonoBehaviour {
 
 	public List<Node> oldPath;
 
+	int i;
+
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
 		currentUnit = GameObject.Find ("Player");
@@ -27,20 +29,43 @@ public class Pathfinding : MonoBehaviour {
 
 		if (gs == GameManager.GameState.myTurn) {
 			if (currentUnit.name != "Player") {
-				grid.path = null;
-				grid.path = oldPath;
+				//grid.path = null;
+				//currentUnit.GetComponent<Unit> ().currentPath = null;
+				//grid.path = oldPath;
+				Debug.Log ("path = oldpath");
 				currentUnit = GameObject.Find ("Player");
 			}
+			currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		}
 
 		if (gs == GameManager.GameState.enemyTurn) {
-			if (currentUnit.name != "SkeletonEnemy") {
-				oldPath = grid.path;
-				currentUnit = GameObject.Find ("SkeletonEnemy");
-				Debug.Log (currentUnit);
-				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit>().target);
+			if (currentUnit.tag != "Enemy") {
+				//oldPath = grid.path;
+				i = gm.GetComponent<GameManager> ().i;
+				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
+				//Debug.Log ("current unit pathfindingisa " + currentUnit);
+				//currentUnit = GameObject.Find ("SkeletonEnemy");
+				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+				//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
+				//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
+				//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
 			}
+
+
+			if (i < gm.GetComponent<GameManager> ().i) {
+				
+				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
+				Debug.Log ("current unit pathfindingisa " + currentUnit);
+				//currentUnit = GameObject.Find ("SkeletonEnemy");
+				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
+				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+				//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
+				//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
+				//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
+			}
+
+			i = gm.GetComponent<GameManager> ().i;
 		}
 			 
 		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving  && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {

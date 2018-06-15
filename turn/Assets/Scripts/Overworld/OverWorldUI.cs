@@ -15,7 +15,7 @@ public class OverWorldUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gm = GameObject.Find ("GameManager");
-		currentUnit = GameObject.Find ("A*").GetComponent<Pathfinding> ().currentUnit;
+		currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		moveText.text = currentUnit.GetComponent<Unit>().remainingMovement.ToString() + "/" + currentUnit.GetComponent<Unit>().moveSpeed.ToString();
 	}
 	
