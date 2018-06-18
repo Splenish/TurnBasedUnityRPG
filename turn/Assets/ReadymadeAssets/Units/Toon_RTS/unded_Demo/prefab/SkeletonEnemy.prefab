@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 114247475976659050}
   m_Layer: 0
   m_Name: SkeletonEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -473,7 +473,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165424}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 12.007, y: 2.7475929e-17, z: -4.011}
+  m_LocalPosition: {x: 13.05, y: 2.7475929e-17, z: -4.011}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 484494}
@@ -907,7 +907,7 @@ Transform:
   m_GameObject: {fileID: 1110894279703606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 1, z: 4}
   m_Children: []
   m_Father: {fileID: 403496}
   m_RootOrder: 2
@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bcd99a5080bc6498ff66db8b11e91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1
   remainingMovement: 0
   moving: 0
   currentUnit: {fileID: 0}
@@ -986,7 +986,7 @@ MonoBehaviour:
   rotationSpeed: 8.5
   firstMove: 1
   moveText: {fileID: 0}
-  animationMoveSpeed: 0.06
+  animationMoveSpeed: 0.08
   aggroRange: 3
   target: {x: 0, y: 0, z: 0}
   grid: {fileID: 0}

@@ -54,7 +54,7 @@ public class EnemyUnit : Unit {
 				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
 					Debug.Log ("koklet");
 					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-					player.GetComponent<Unit> ().StartTurn ();
+					player.GetComponent<Player> ().StartTurn ();
 				}	
 			}
 		}
@@ -79,7 +79,7 @@ public class EnemyUnit : Unit {
 				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
 					Debug.Log ("koklet");
 					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-					player.GetComponent<Unit> ().StartTurn ();
+					player.GetComponent<Player> ().StartTurn ();
 				}
 			}
 		}

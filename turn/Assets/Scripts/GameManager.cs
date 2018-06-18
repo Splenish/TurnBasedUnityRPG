@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 			currentUnit = player;
 
 			if (playerTurnStart) {
-				currentUnit.GetComponent<Unit> ().StartTurn ();
+				currentUnit.GetComponent<Player> ().StartTurn ();
 				playerTurnStart = false;
 				enemyTurnStart = true;
 			}
