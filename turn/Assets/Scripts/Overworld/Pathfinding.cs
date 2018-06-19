@@ -26,24 +26,27 @@ public class Pathfinding : MonoBehaviour {
 
 	void Update() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		currentUnit = gm.GetComponent<GameManager>().currentUnit;
+
 
 		if (gs == GameManager.GameState.myTurn) {
 			if (currentUnit.name != "Player") {
 				//grid.path = null;
 				//currentUnit.GetComponent<Unit> ().currentPath = null;
 				//grid.path = oldPath;
-				Debug.Log ("path = oldpath");
+				//Debug.Log ("path = oldpath");
 				currentUnit = GameObject.Find ("Player");
 			}
 			currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		}
 
 		if (gs == GameManager.GameState.enemyTurn) {
+			Debug.Log ("current unit pathfindingisa " + currentUnit);
 			if (currentUnit.tag != "Enemy") {
 				//oldPath = grid.path;
 				i = gm.GetComponent<GameManager> ().i;
 				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
-				//Debug.Log ("current unit pathfindingisa " + currentUnit);
+				Debug.Log ("current unit pathfindingisa " + currentUnit);
 				//currentUnit = GameObject.Find ("SkeletonEnemy");
 				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
 				currentUnit.GetComponent<Unit> ().currentPath = grid.path;

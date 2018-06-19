@@ -25,7 +25,7 @@ public class GameGrid : MonoBehaviour {
 
 	int playerSpeed;
 
-	void Start() {
+	void Awake() {
 		pathLine = new GameObject ();
 		pathLine.transform.position = player.position;
 		pathLine.AddComponent<LineRenderer> ();

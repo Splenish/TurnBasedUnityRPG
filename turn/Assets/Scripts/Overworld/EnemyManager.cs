@@ -25,9 +25,6 @@ public class EnemyManager : MonoBehaviour {
 		//grid = GetComponent<GameGrid> ().grid;
 		grid = gridObj.GetComponent<GameGrid>().grid;
 
-		Debug.Log (grid);
-
-
 		for (int i = 0; i < grid.GetLength (0); i++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
 				spawnPoints.Add (grid [i, j].worldPosition); 

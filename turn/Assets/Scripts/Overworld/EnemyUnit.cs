@@ -19,6 +19,10 @@ public class EnemyUnit : Unit {
 
 	// Use this for initialization
 	void Start () {
+
+	}
+
+	void Awake () {
 		player = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
 		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Length;
@@ -29,8 +33,10 @@ public class EnemyUnit : Unit {
 		float combatTriggerSize = grid.GetComponent<GameGrid> ().nodeRadius * aggroRange * 2 - 3;
 		aggroTrigger = gameObject.transform.Find ("CombatTrigger").gameObject;
 		aggroTrigger.transform.localScale = new Vector3 (combatTriggerSize, 1, combatTriggerSize);
+		Debug.Log ("enemyUnit awake");
 	}
-	
+
+
 	// Update is called once per frame
 	void Update () {
 		target = player.transform.position;
@@ -38,21 +44,24 @@ public class EnemyUnit : Unit {
 
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
+			Debug.Log ("current path enemyUnit update: " + currentPath);
 			if (checkIfInAggrorange ()) {
 				moving = true;
+				Debug.Log ("Moving true");
 				if (firstMove) {
 					//remainingMovement--;
 					firstMove = false;
 				}		
 
 				FinishEnemyTurn ();
+				Debug.Log ("Seuraavaks MoveUnit");
 				MoveUnit ();
 			} else {
 				gm.GetComponent<GameManager> ().i++;
 				remainingMovement = moveSpeed;
-				Debug.Log (gm.GetComponent<GameManager> ().i);
+				Debug.Log ("Game managerin i: " + gm.GetComponent<GameManager> ().i);
 				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
-					Debug.Log ("koklet");
+					Debug.Log ("Vaihtuu player vuoroks");
 					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
 					player.GetComponent<Player> ().StartTurn ();
 				}	
@@ -63,6 +72,7 @@ public class EnemyUnit : Unit {
 	bool checkIfInAggrorange() {
 		if (currentPath != null) {
 			if (currentPath.Count <= aggroRange) {
+				Debug.Log ("in aggrorange");
 				return true;
 			} else {
 				return false;
@@ -86,6 +96,7 @@ public class EnemyUnit : Unit {
 	}
 
 	public void StartEnemyTurn() {
+		Debug.Log ("start enemy turn");
 		remainingMovement = moveSpeed;
 		firstMove = true;
 	}
