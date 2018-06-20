@@ -55,16 +55,21 @@ public class GameManager : MonoBehaviour
 		//grid = GetComponent<GameGrid> ().grid;
 		grid = gridObj.GetComponent<GameGrid>().grid;
 
+		Debug.Log (grid);
+
+
 		for (int i = 0; i < grid.GetLength (0); i++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
 				spawnPoints.Add (grid [i, j].worldPosition); 
 			}
 		}
 
-		int spawnPointIndex = Random.Range (0, spawnPoints.Count);
 
-
-		Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
+		for (int i = 0; i < 20; i++) {
+			Debug.Log ("paska");
+			int spawnPointIndex = Random.Range (0, spawnPoints.Count);
+			Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
+		}
 
 		enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
 		Debug.Log (enemyUnits.Length);
@@ -86,10 +91,10 @@ public class GameManager : MonoBehaviour
 			break;
 
 		case GameState.enemyTurn:
-			Debug.Log ("Enemy Turn");
 			currentUnit = enemyUnits [i];
-
+			Debug.Log ("current unit gm: " + currentUnit);
 			if (enemyTurnStart) {
+				Debug.Log ("if enemyturnstart");
 				currentUnit.GetComponent<EnemyUnit> ().StartEnemyTurn ();
 				enemyTurnStart = false;
 				playerTurnStart = true;

@@ -19,10 +19,6 @@ public class EnemyUnit : Unit {
 
 	// Use this for initialization
 	void Start () {
-
-	}
-
-	void Awake () {
 		player = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
 		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Length;
@@ -33,35 +29,33 @@ public class EnemyUnit : Unit {
 		float combatTriggerSize = grid.GetComponent<GameGrid> ().nodeRadius * aggroRange * 2 - 3;
 		aggroTrigger = gameObject.transform.Find ("CombatTrigger").gameObject;
 		aggroTrigger.transform.localScale = new Vector3 (combatTriggerSize, 1, combatTriggerSize);
-		Debug.Log ("enemyUnit awake");
+		moving = false;
+		Debug.Log ("start");
 	}
-
-
+	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 		target = player.transform.position;
 		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
-
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		//Debug.Log ("gs enemyUnitis: " + gs);
 		if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
-			Debug.Log ("current path enemyUnit update: " + currentPath);
 			if (checkIfInAggrorange ()) {
+				Debug.Log ("if in aggrorange");
 				moving = true;
-				Debug.Log ("Moving true");
 				if (firstMove) {
 					//remainingMovement--;
 					firstMove = false;
 				}		
 
 				FinishEnemyTurn ();
-				Debug.Log ("Seuraavaks MoveUnit");
 				MoveUnit ();
 			} else {
 				gm.GetComponent<GameManager> ().i++;
 				remainingMovement = moveSpeed;
-				Debug.Log ("Game managerin i: " + gm.GetComponent<GameManager> ().i);
+				Debug.Log ("GM:n i: " + gm.GetComponent<GameManager> ().i);
 				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
-					Debug.Log ("Vaihtuu player vuoroks");
+					Debug.Log ("PLayerin vuorolle");
 					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
 					player.GetComponent<Player> ().StartTurn ();
 				}	
@@ -72,7 +66,7 @@ public class EnemyUnit : Unit {
 	bool checkIfInAggrorange() {
 		if (currentPath != null) {
 			if (currentPath.Count <= aggroRange) {
-				Debug.Log ("in aggrorange");
+				Debug.Log ("Aggrorange");
 				return true;
 			} else {
 				return false;
@@ -96,7 +90,8 @@ public class EnemyUnit : Unit {
 	}
 
 	public void StartEnemyTurn() {
-		Debug.Log ("start enemy turn");
+		Debug.Log ("start enemyturn");
+		Debug.Log ("minka enemyunit script: " + this.gameObject);
 		remainingMovement = moveSpeed;
 		firstMove = true;
 	}

@@ -26,9 +26,7 @@ public class Pathfinding : MonoBehaviour {
 
 	void Update() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-		currentUnit = gm.GetComponent<GameManager>().currentUnit;
-
-
+		//Debug.Log ("gs pathfinding: " + gs);
 		if (gs == GameManager.GameState.myTurn) {
 			if (currentUnit.name != "Player") {
 				//grid.path = null;
@@ -41,7 +39,7 @@ public class Pathfinding : MonoBehaviour {
 		}
 
 		if (gs == GameManager.GameState.enemyTurn) {
-			Debug.Log ("current unit pathfindingisa " + currentUnit);
+			Debug.Log ("enemy turn");
 			if (currentUnit.tag != "Enemy") {
 				//oldPath = grid.path;
 				i = gm.GetComponent<GameManager> ().i;
@@ -54,7 +52,6 @@ public class Pathfinding : MonoBehaviour {
 				//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
 				//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
 			}
-
 
 			if (i < gm.GetComponent<GameManager> ().i) {
 				

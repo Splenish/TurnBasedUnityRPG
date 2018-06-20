@@ -52,8 +52,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 0
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -144,6 +144,10 @@ MonoBehaviour:
   currentUnit: {fileID: 0}
   i: 0
   enemyUnits: []
+  enemy: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
+  spawnPoints: []
+  gridObj: {fileID: 1829657547}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &46710368
 Transform:
   m_ObjectHideFlags: 0
@@ -169,11 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveText: {fileID: 1125394818}
---- !u!95 &92552386 stripped
-Animator:
-  m_PrefabParentObject: {fileID: 9542308, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
-    type: 2}
-  m_PrefabInternal: {fileID: 336066271}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +282,10 @@ Prefab:
       propertyPath: gm
       value: 
       objectReference: {fileID: 46710366}
+    - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
   m_IsPrefabParent: 0
@@ -418,7 +421,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_TagString
@@ -697,7 +700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1138553149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,28 +768,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114616853789593704, guid: cfef8888a45c8484b839f503f2ac2871,
-        type: 2}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 92552386}
-    - target: {fileID: 114616853789593704, guid: cfef8888a45c8484b839f503f2ac2871,
+    - target: {fileID: 114364879189254282, guid: cfef8888a45c8484b839f503f2ac2871,
         type: 2}
       propertyPath: moveText
       value: 
       objectReference: {fileID: 1125394818}
-    - target: {fileID: 114616853789593704, guid: cfef8888a45c8484b839f503f2ac2871,
-        type: 2}
-      propertyPath: moveSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114616853789593704, guid: cfef8888a45c8484b839f503f2ac2871,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114616853789593704, guid: cfef8888a45c8484b839f503f2ac2871, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cfef8888a45c8484b839f503f2ac2871, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1391273007
@@ -1140,24 +1127,9 @@ GameObject:
   m_PrefabParentObject: {fileID: 1206752546349912, guid: cfef8888a45c8484b839f503f2ac2871,
     type: 2}
   m_PrefabInternal: {fileID: 1211471838}
---- !u!114 &2107066370
+--- !u!114 &2107066370 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2107066369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabParentObject: {fileID: 114364879189254282, guid: cfef8888a45c8484b839f503f2ac2871,
+    type: 2}
+  m_PrefabInternal: {fileID: 1211471838}
   m_Script: {fileID: 11500000, guid: f4715b38a24e0f14b8ae99c0ac65a0c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4
-  remainingMovement: 0
-  moving: 0
-  currentUnit: {fileID: 0}
-  gm: {fileID: 0}
-  anim: {fileID: 0}
-  rotationSpeed: 8.5
-  firstMove: 1
-  moveText: {fileID: 1125394818}
-  animationMoveSpeed: 0.2

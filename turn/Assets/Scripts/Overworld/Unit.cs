@@ -45,7 +45,7 @@ public class Unit : MonoBehaviour {
 
 
 	public void MoveToNextTile() {
-		Debug.Log ("Move to next tile");
+
 		if (currentPath == null) {			
 			return;
 		}
@@ -99,10 +99,8 @@ public class Unit : MonoBehaviour {
 	*/
 
 	public void MoveUnit() {
-		//Debug.Log ("current path move unitis: " + currentPath);
-		//Debug.Log ("Moveunit");
 		if (currentPath != null && moving ) {
-			Debug.Log ("currentPath != null && moving");
+			
 			if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .2f) {
 				MoveToNextTile ();
 			}
