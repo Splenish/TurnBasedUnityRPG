@@ -54,7 +54,7 @@ public class Pathfinding : MonoBehaviour {
 			}
 
 			if (i < gm.GetComponent<GameManager> ().i) {
-				
+
 				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
 				Debug.Log ("current unit pathfindingisa " + currentUnit);
 				//currentUnit = GameObject.Find ("SkeletonEnemy");
@@ -67,7 +67,7 @@ public class Pathfinding : MonoBehaviour {
 
 			i = gm.GetComponent<GameManager> ().i;
 		}
-			 
+
 		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving  && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

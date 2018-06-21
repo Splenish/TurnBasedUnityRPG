@@ -415,6 +415,11 @@ Prefab:
       propertyPath: gm
       value: 
       objectReference: {fileID: 46710366}
+    - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
+        type: 2}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1829657547}
     - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_Name
       value: SkeletonEnemy (1)
@@ -422,33 +427,6 @@ Prefab:
     - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
-        type: 2}
-      propertyPath: moveSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4932137391669510, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4932137391669510, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
-        type: 2}
-      propertyPath: aggroRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114247475976659050, guid: 9f4313a771e05c64d8da7ae6bd19a19f,
-        type: 2}
-      propertyPath: animationMoveSpeed
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 2}
@@ -773,6 +751,11 @@ Prefab:
       propertyPath: moveText
       value: 
       objectReference: {fileID: 1125394818}
+    - target: {fileID: 114364879189254282, guid: cfef8888a45c8484b839f503f2ac2871,
+        type: 2}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1829657547}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cfef8888a45c8484b839f503f2ac2871, type: 2}
   m_IsPrefabParent: 0

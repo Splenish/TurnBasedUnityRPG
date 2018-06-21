@@ -473,7 +473,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165424}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 13.05, y: 2.7475929e-17, z: -4.011}
+  m_LocalPosition: {x: 9.08, y: 2.7475929e-17, z: -14}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 484494}
@@ -986,7 +986,7 @@ MonoBehaviour:
   rotationSpeed: 8.5
   firstMove: 1
   moveText: {fileID: 0}
-  animationMoveSpeed: 0.08
+  animationMoveSpeed: 0.1
   aggroRange: 3
   target: {x: 0, y: 0, z: 0}
   grid: {fileID: 0}

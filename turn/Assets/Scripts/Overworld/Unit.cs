@@ -73,7 +73,7 @@ public class Unit : MonoBehaviour {
 			moving = false;
 			currentPath = null;
 		}
-			
+
 
 	}
 
@@ -81,7 +81,6 @@ public class Unit : MonoBehaviour {
 	/*
 	public void NextTurn() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-
 		switch (gs) {
 		case GameManager.GameState.myTurn:
 			Debug.Log ("Playerin vuoro loppuu");
@@ -100,7 +99,7 @@ public class Unit : MonoBehaviour {
 
 	public void MoveUnit() {
 		if (currentPath != null && moving ) {
-			
+
 			if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .2f) {
 				MoveToNextTile ();
 			}
@@ -116,7 +115,7 @@ public class Unit : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position,tilePosToMoveTo,animationMoveSpeed);
 
 		}
-		
+
 		if (moving)
 			anim.SetBool ("isMoving", true);
 		if (!moving)

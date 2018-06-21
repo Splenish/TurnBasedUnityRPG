@@ -29,22 +29,22 @@ public class GameManager : MonoBehaviour
 
 	public Quaternion rotation;
 
-    public enum GameState
-    {
-        myTurn,
-        enemyTurn
-    }
-    private GameState currentGameState;
-    public GameState CurrentGameState
-    {
-        get { return currentGameState; }
+	public enum GameState
+	{
+		myTurn,
+		enemyTurn
+	}
+	private GameState currentGameState;
+	public GameState CurrentGameState
+	{
+		get { return currentGameState; }
 		set { currentGameState = value; }
-    }
-    // Use this for initialization
-    void Awake()
-    {
+	}
+	// Use this for initialization
+	void Awake()
+	{
 		currentUnit = GameObject.Find ("Player");
-        currentGameState = GameState.myTurn;
+		currentGameState = GameState.myTurn;
 		player = GameObject.Find ("Player");
 
 
@@ -60,7 +60,8 @@ public class GameManager : MonoBehaviour
 
 		for (int i = 0; i < grid.GetLength (0); i++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
-				spawnPoints.Add (grid [i, j].worldPosition); 
+				if(grid[i,j].walkable)
+					spawnPoints.Add (grid [i, j].worldPosition); 
 			}
 		}
 
@@ -73,13 +74,13 @@ public class GameManager : MonoBehaviour
 
 		enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
 		Debug.Log (enemyUnits.Length);
-    }
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        switch (currentGameState)
-        {
+	// Update is called once per frame
+	void Update()
+	{
+		switch (currentGameState)
+		{
 		case GameState.myTurn:
 			currentUnit = player;
 
@@ -100,13 +101,11 @@ public class GameManager : MonoBehaviour
 				playerTurnStart = true;
 			}
 			break;
-        }
-    }
+		}
+	}
 
 	public void StartCombat() {
 		Debug.Log ("vomat");
 		//SceneManager.LoadScene ("fighttoooscennoo");
 	}
 }
-
-

@@ -32,7 +32,7 @@ public class EnemyUnit : Unit {
 		moving = false;
 		Debug.Log ("start");
 	}
-	
+
 	// Update is called once per frame
 	void LateUpdate () {
 		target = player.transform.position;
@@ -95,7 +95,7 @@ public class EnemyUnit : Unit {
 		remainingMovement = moveSpeed;
 		firstMove = true;
 	}
-		
+
 
 	public void PullTrigger(Collider c) {
 		if (c.gameObject.tag == "Player") {

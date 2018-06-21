@@ -30,7 +30,9 @@ public class EnemyManager : MonoBehaviour {
 
 		for (int i = 0; i < grid.GetLength (0); i++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
-				spawnPoints.Add (grid [i, j].worldPosition); 
+				if (grid [i, j].walkable) {
+					spawnPoints.Add (grid [i, j].worldPosition); 
+				}
 			}
 		}
 
