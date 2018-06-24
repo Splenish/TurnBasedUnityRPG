@@ -17,13 +17,20 @@ public class PlayerFollow : MonoBehaviour {
 
     public float RotationSpeed = 5.0f;
 
+	GameObject gm;
+
 	// Use this for initialization
 	void Start () {
         _cameraOffset = transform.position - PlayerTransform.position;
+		gm = GameObject.Find ("GameManager");
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
+
+		if(gm.GetComponent<GameManager> ().currentUnit.GetComponent<Unit>().moving || gm.GetComponent<GameManager>().CurrentGameState == GameManager.GameState.myTurn) 
+			PlayerTransform = gm.GetComponent<GameManager> ().currentUnit.transform;
+
         Vector3 newPos = PlayerTransform.position + _cameraOffset;
 
         transform.position = Vector3.Slerp(transform.position, newPos, SmoothFactor);

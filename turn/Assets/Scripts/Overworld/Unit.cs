@@ -33,11 +33,9 @@ public class Unit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		remainingMovement = moveSpeed;
-		//currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		currentUnit = this.gameObject;
 		anim = currentUnit.GetComponentInChildren<Animator> ();
 		gm = GameObject.Find ("GameManager");
-		moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
 	}
 
 	// Update is called once per frame
@@ -75,30 +73,14 @@ public class Unit : MonoBehaviour {
 			moving = false;
 			currentPath = null;
 		}
-			
+
 
 	}
 
-	public void MoveUnitButton() {
-		if (remainingMovement > 0) {
-			if (!moving && currentPath != null) {
-				if (firstMove) {
-					if (currentPath.Count != 1) {
-						//remainingMovement--;
-						moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
-					}
-					firstMove = false;
-				}
-
-				moving = true;
-			}
-		}
-	}
 
 	/*
 	public void NextTurn() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
-
 		switch (gs) {
 		case GameManager.GameState.myTurn:
 			Debug.Log ("Playerin vuoro loppuu");
@@ -117,7 +99,7 @@ public class Unit : MonoBehaviour {
 
 	public void MoveUnit() {
 		if (currentPath != null && moving ) {
-			
+
 			if (Vector3.Distance (transform.position, currentPath [0].worldPosition) < .2f) {
 				MoveToNextTile ();
 			}
@@ -133,21 +115,13 @@ public class Unit : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position,tilePosToMoveTo,animationMoveSpeed);
 
 		}
-		
+
 		if (moving)
 			anim.SetBool ("isMoving", true);
 		if (!moving)
 			anim.SetBool ("isMoving", false);
 	}
 
-	public void StartTurn() {
-		remainingMovement = moveSpeed;
-		//anim = currentUnit.GetComponentInChildren<Animator> ();
-		moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
-		gm.GetComponent<GameManager> ().i = 0;
-		currentPath = null;
-		if(currentPath == null)
-			firstMove = true;
-	}
+
 
 }
