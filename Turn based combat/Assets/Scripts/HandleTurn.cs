@@ -14,7 +14,8 @@ public class HandleTurn{
 
     // kehen hyökätään
     public GameObject AttackersTarget;
-    
+
     // mikä hyökkäys tehdään
+    public BaseAttack choosenAttack;
 
 }

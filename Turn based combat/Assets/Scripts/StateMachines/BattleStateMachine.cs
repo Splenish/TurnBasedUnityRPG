@@ -72,9 +72,10 @@ public class BattleStateMachine : MonoBehaviour {
                 GameObject performer = GameObject.Find(PerformList[0].Attacker);
                 if(PerformList[0].Type == "Enemy")
                 {
-                    EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
+                    StartCoroutine(AiWait());
+                   /* EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
                     ESM.HeroToAttack = PerformList[0].AttackersTarget;
-                    ESM.currentState = EnemyStateMachine.TurnState.Action;
+                    ESM.currentState = EnemyStateMachine.TurnState.Action;*/
                 }
                 if (PerformList[0].Type == "Hero")
                 {
@@ -118,6 +119,29 @@ public class BattleStateMachine : MonoBehaviour {
         PerformList.Add(input);
     }
 
+    IEnumerator AiWait()
+    {
+        yield return new WaitForSeconds(1);
+
+        GameObject performer = GameObject.Find(PerformList[0].Attacker);
+        EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
+        for (int i = 0; i<HeroesInBattle.Count; i++)
+        {
+            if(PerformList[0].AttackersTarget == HeroesInBattle[i])
+            {
+                ESM.HeroToAttack = PerformList[0].AttackersTarget;
+                ESM.currentState = EnemyStateMachine.TurnState.Action;
+                break;
+            }
+            else
+            {
+                PerformList[0].AttackersTarget = HeroesInBattle[Random.Range(0, HeroesInBattle.Count)];
+                ESM.HeroToAttack = PerformList[0].AttackersTarget;
+                ESM.currentState = EnemyStateMachine.TurnState.Action;
+            }
+        }
+        
+    }
     void EnemyButtons()
     {
         foreach(GameObject enemy in EnemiesInBattle)
@@ -157,6 +181,7 @@ public class BattleStateMachine : MonoBehaviour {
     {
         PerformList.Add(HeroChoise);
         EnemySelectPanel.SetActive(false);
+        AttackPanel.SetActive(false);
         HeroesToManage[0].transform.Find("Selector").gameObject.SetActive(false);
         HeroesToManage.RemoveAt(0);
         HeroInput = HeroGui.Activate;
