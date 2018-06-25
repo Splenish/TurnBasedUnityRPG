@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Hero
   - Enemy
+  - DeadHero
+  - DeadEnemy
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - PostProcessing
   - spikes
   - skulls etc
-  - 
+  - hero
   - 
   - 
   - 

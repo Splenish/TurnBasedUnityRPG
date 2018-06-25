@@ -80,6 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4077287220714328}
   - component: {fileID: 95834770033371962}
+  - component: {fileID: 114420697406639394}
   m_Layer: 0
   m_Name: Hero2
   m_TagString: Hero
@@ -821,6 +822,38 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 0
     m_RotationOrder: 4
+--- !u!114 &114420697406639394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184208695613218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0580373ba53a0024a9c7cc82923df32d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hero:
+    theName: Hero2
+    baseHP: 1000
+    curHP: 1000
+    baseMP: 500
+    curMP: 500
+    baseATK: 20
+    curATK: 20
+    baseDEF: 100
+    curDEF: 100
+    Attacks: []
+    strenght: 0
+    stamina: 50
+    intellect: 20
+    dexterity: 10
+    agility: 10
+  currentState: 0
+  Selector: {fileID: 1323376433563922}
+  EnemyToAttack: {fileID: 0}
+  isDead: 0
+  HeroPanel: {fileID: 1948186799476490, guid: f7a1c971acb2ed241ab7b2b51d95b2bf, type: 2}
 --- !u!137 &137726462958626248
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

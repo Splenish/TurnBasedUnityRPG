@@ -6,7 +6,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     private BattleStateMachine BSM;
     public BaseEnemy enemy;
-    
+
 
 
     public enum TurnState
@@ -19,7 +19,7 @@ public class EnemyStateMachine : MonoBehaviour {
     }
 
     public TurnState currentState;
-
+    
     //ProgressBarille muuttujia
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
@@ -30,14 +30,16 @@ public class EnemyStateMachine : MonoBehaviour {
     public bool actionStarted = false;
     public GameObject HeroToAttack;
     private float animSpeed = 10f;
+    Animator anim;
+    public GameObject Selector2;
+    public GameObject FloatingTextPrefab;
 
-    public GameObject Selector;
+
     
-
-
     void Start()
     {
-        Selector.SetActive(false);
+        anim = GetComponent<Animator>();
+        Selector2.SetActive(false);
         currentState = TurnState.Processing;
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         startPosition = transform.position;
@@ -45,7 +47,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case (TurnState.Processing):
@@ -53,6 +55,7 @@ public class EnemyStateMachine : MonoBehaviour {
                 break;
             case (TurnState.ChooseAction):
                 ChooseAction();
+
                 currentState = TurnState.Waiting;
                 break;
             case (TurnState.Waiting):
@@ -60,6 +63,7 @@ public class EnemyStateMachine : MonoBehaviour {
                 break;
 
             case (TurnState.Action):
+
                 StartCoroutine(TimeForAction());
                 break;
             case (TurnState.Dead):
@@ -72,14 +76,15 @@ public class EnemyStateMachine : MonoBehaviour {
     void UpdateProgress()
     {
         cur_cooldown = cur_cooldown + Time.deltaTime;
-        
+
         if (cur_cooldown >= max_cooldown)
         {
+
             currentState = TurnState.ChooseAction;
         }
 
     }
-    
+
     void ChooseAction()
     {
         HandleTurn myAttack = new HandleTurn();
@@ -87,6 +92,11 @@ public class EnemyStateMachine : MonoBehaviour {
         myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = this.gameObject;
         myAttack.AttackersTarget = BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)];
+
+        int num = Random.Range(0, enemy.Attacks.Count);
+        myAttack.choosenAttack = enemy.Attacks[num];
+        //Debug.Log(this.gameObject.name + "has choosen" + myAttack.choosenAttack.attackName + "and does" + myAttack.choosenAttack.attackDamage + "damage");
+
         BSM.CollectActions(myAttack);
     }
 
@@ -94,44 +104,47 @@ public class EnemyStateMachine : MonoBehaviour {
     {
         //if (completeTurn == true)
         //{
-            if (actionStarted)
-            {
-                yield break;
-            }
+        if (actionStarted)
+        {
+            yield break;
+        }
 
-            actionStarted = true;
+        actionStarted = true;
 
-            // animaatio enemylle 
-            Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x - 0.8f, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
-            while (MoveTowardsEnemy(heroPosition))
-            {
-                yield return null;
-            }
-            // oota hetki
-            yield return new WaitForSeconds(1f);
-            // tee dmg
+        // animaatio enemylle 
+        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x - 0.8f, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
+        while (MoveTowardsEnemy(heroPosition))
+        {
+            anim.SetBool("isAttacking", true);
+            yield return null;
+        }
+        // oota hetki
+        yield return new WaitForSeconds(1.2f);
+        // tee dmg
+        DoDamage();
+        // animaatio takas startpositioniin
+        Vector3 firstPosition = startPosition;
+        while (MoveTowardsStart(firstPosition))
+        {
+            anim.SetBool("isAttacking", false);
 
-            // animaatio takas startpositioniin
-            Vector3 firstPosition = startPosition;
-            while (MoveTowardsStart(firstPosition))
-            {
-                yield return null;
-            }
+            yield return null;
+        }
 
-            // poista performance BSM listasta
-            BSM.PerformList.RemoveAt(0);
+        // poista performance BSM listasta
+        BSM.PerformList.RemoveAt(0);
 
-            // resettaa BSM -> Wait
-            BSM.battleStates = BattleStateMachine.PerformAction.Wait;
+        // resettaa BSM -> Wait
+        BSM.battleStates = BattleStateMachine.PerformAction.Wait;
 
-            // lopeta coroutine
-            actionStarted = false;
+        // lopeta coroutine
+        actionStarted = false;
 
-            // resettaa enemy state
-            cur_cooldown = 0f;
-            currentState = TurnState.Processing;
-           // completeTurn = false;
-       // }
+        // resettaa enemy state
+        cur_cooldown = 0f;
+        currentState = TurnState.Processing;
+        // completeTurn = false;
+        // }
 
     }
 
@@ -145,5 +158,20 @@ public class EnemyStateMachine : MonoBehaviour {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
+    void DoDamage()
+    {
+        float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage);
+        if (FloatingTextPrefab)
+        {
+            Vector3 HeroTextPosition = new Vector3(HeroToAttack.transform.position.x, HeroToAttack.transform.position.y, HeroToAttack.transform.position.z);
+            var go = Instantiate(FloatingTextPrefab, HeroTextPosition, Quaternion.identity);
+
+            go.GetComponent<TextMesh>().text = "" + calc_damage;
+        }
+
+
+    }
+   
 
 }

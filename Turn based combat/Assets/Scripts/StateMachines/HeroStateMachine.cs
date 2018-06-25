@@ -24,19 +24,35 @@ public class HeroStateMachine : MonoBehaviour {
     //ProgressBarille muuttujia
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
-    public Image ProgressBar;
+    private Image ProgressBar;
     public GameObject Selector;
     //ienumerator
     public GameObject EnemyToAttack;
     private bool actionStarted = false;
     private Vector3 startPosition;
     private float animSpeed = 10f;
+    //dead/alive
+    private bool alive = true;
+    public bool isDead = false;
+    Animator anim;
+    //heropanel
+    private HeroPanelStats stats;
+    public GameObject HeroPanel;
+    private Transform HeroPanelSpacer;
+
     
 
 
 
     void Start()
     {
+        //find spacer
+        HeroPanelSpacer = GameObject.Find("Battlecanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
+        //create panel, fill in info
+        CreateHeroPanel();
+        
+        
+        anim = GetComponent<Animator>();
         startPosition = transform.position;
         cur_cooldown = Random.Range(0, 2f);
         Selector.SetActive(false);
@@ -44,9 +60,11 @@ public class HeroStateMachine : MonoBehaviour {
         currentState = TurnState.Processing;
     }
 
+ 
+
     void Update()
     {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch(currentState)
         {
             case (TurnState.Processing):
@@ -66,9 +84,42 @@ public class HeroStateMachine : MonoBehaviour {
                 StartCoroutine(TimeForAction());
                 break;
             case (TurnState.Dead):
+                if (!alive)
+                {
+                    return;
+                }
+                else
+                {
+                    //change tag
+                    this.gameObject.tag = "DeadHero";
+                    //not attackable by enemy
+                    BSM.HeroesInBattle.Remove(this.gameObject);
+                    //not manageable
+                    BSM.HeroesToManage.Remove(this.gameObject);
+                    //deactivate the selector
+                    Selector.SetActive(false);
+                    //reset ui
+                    BSM.AttackPanel.SetActive(false);
+                    BSM.EnemySelectPanel.SetActive(false);
+                    //remove item from performlist
+                    for(int i = 0; i<BSM.PerformList.Count; i++)
+                    {
+                        if(BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                        {
+                            BSM.PerformList.Remove(BSM.PerformList[i]);
+                        }
+                    }
+                    //change color  / play animation
+                    anim.SetBool("isDead", true);
+                    //reset heroinput
+                    BSM.HeroInput = BattleStateMachine.HeroGui.Activate;
 
+                    alive = false;
+                    
+                }
                 break;
         }
+
 
     }
 
@@ -92,6 +143,7 @@ public class HeroStateMachine : MonoBehaviour {
         }
 
         actionStarted = true;
+
 
         // animaatio enemylle 
         Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.8f, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
@@ -136,4 +188,44 @@ public class HeroStateMachine : MonoBehaviour {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
+    public void TakeDamage(float getDamageAmount)
+    {
+        anim.SetTrigger("Hit");
+        StartCoroutine(TakeHit());
+        hero.curHP -= getDamageAmount;
+      
+        if(hero.curHP <= 0)
+        {
+            hero.curHP = 0;
+            currentState = TurnState.Dead;
+        }
+        UpdateHeroPanel();
+    }
+
+    
+
+    void CreateHeroPanel()
+    {
+        HeroPanel = Instantiate(HeroPanel) as GameObject;
+        stats = HeroPanel.GetComponent<HeroPanelStats>();
+        stats.HeroName.text = hero.theName;
+        stats.HeroHP.text = "" + hero.curHP;
+        stats.HeroMP.text = "" + hero.curMP;
+        ProgressBar = stats.ProgressBar;
+        HeroPanel.transform.SetParent(HeroPanelSpacer, false);
+        
+    }
+
+    void UpdateHeroPanel()
+    {
+        stats.HeroHP.text = "" + hero.curHP;
+        stats.HeroMP.text = "" + hero.curMP;
+    }
+
+    IEnumerator TakeHit()
+    {
+        yield return new WaitForSeconds(1);
+        anim.SetTrigger("Idle");
+    }
+    
 }
