@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: 534098c61d7621441920c634102c4210
+  - enabled: 1
+    path: Assets/Scenes/OverWorld/world.unity
+    guid: 8619a5f5a5659b94e8d39c3fa117815a
   m_configObjects: {}

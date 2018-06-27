@@ -31,6 +31,7 @@ public class EnemyUnit : Unit {
 		aggroTrigger = gameObject.transform.Find ("CombatTrigger").gameObject;
 		aggroTrigger.transform.localScale = new Vector3 (combatTriggerSize, 1, combatTriggerSize);
 		moving = false;
+		//Debug.Log ("enemy unit start");
 		//Debug.Log ("start");
 	}
 
@@ -53,10 +54,11 @@ public class EnemyUnit : Unit {
 				MoveUnit ();
 			} else {
 				gm.GetComponent<GameManager> ().i++;
+				Debug.Log ("i++");
 				remainingMovement = moveSpeed;
 				//Debug.Log ("GM:n i: " + gm.GetComponent<GameManager> ().i);
 				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
-					//Debug.Log ("PLayerin vuorolle");
+					Debug.Log ("PLayerin vuorolle");
 					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
 					player.GetComponent<Player> ().StartTurn ();
 				}	

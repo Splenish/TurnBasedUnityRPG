@@ -46,50 +46,45 @@ public class GameManager : MonoBehaviour
 	void Awake()
 	{
 
+		Debug.Log (currentUnit);
+		Debug.Log (currentGameState);
+
 		if (Instance == null) {
 			DontDestroyOnLoad (gameObject);
 			Instance = this;
+
+			currentUnit = GameObject.Find ("Player");
+			currentGameState = GameState.myTurn;
+			player = GameObject.Find ("Player");
+
+
+			rotation = Quaternion.identity;
+
+			rotation.eulerAngles = new Vector3 (0, -90, 0);
+
+			//grid = GetComponent<GameGrid> ().grid;
+			grid = gridObj.GetComponent<GameGrid>().grid;
+
+			Debug.Log (grid);
+
+
+			SpawnEnemies ();
+
+
+			enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
+			Debug.Log (enemyUnits.Length);
+
 		} else if(Instance != this) {
 			Destroy(gameObject);
 		}
 
-		currentUnit = GameObject.Find ("Player");
-		currentGameState = GameState.myTurn;
-		player = GameObject.Find ("Player");
 
-
-		rotation = Quaternion.identity;
-
-		rotation.eulerAngles = new Vector3 (0, -90, 0);
-
-		//grid = GetComponent<GameGrid> ().grid;
-		grid = gridObj.GetComponent<GameGrid>().grid;
-
-		Debug.Log (grid);
-
-
-		for (int i = 0; i < grid.GetLength (0); i++) {
-			for (int j = 0; j < grid.GetLength (1); j++) {
-				if(grid[i,j].walkable && !(i < 8))
-					spawnPoints.Add (grid [i, j].worldPosition); 
-			}
-		}
-
-
-		for (int i = 0; i < 20; i++) {
-			Debug.Log ("paska");
-			int spawnPointIndex = Random.Range (0, spawnPoints.Count);
-			Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
-			spawnPoints.RemoveAt (spawnPointIndex);
-		}
-
-		enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
-		Debug.Log (enemyUnits.Length);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
+
 		switch (currentGameState)
 		{
 		case GameState.myTurn:
@@ -104,6 +99,9 @@ public class GameManager : MonoBehaviour
 
 		case GameState.enemyTurn:
 			currentUnit = enemyUnits [i];
+			if (currentUnit == null) {
+				i++;
+			}
 			Debug.Log ("current unit gm: " + currentUnit);
 			if (enemyTurnStart) {
 				Debug.Log ("if enemyturnstart");
@@ -117,6 +115,45 @@ public class GameManager : MonoBehaviour
 
 	public void StartCombat() {
 		Debug.Log ("vomat");
+		player.SetActive (false);
+
+		for (int j = 0; j < enemyUnits.Length; j++) {
+			enemyUnits [j].SetActive (false);
+		}
+
 		SceneManager.LoadScene ("TestScene");
 	}
+
+	void SpawnEnemies() {
+		for (int i = 0; i < grid.GetLength (0); i++) {
+			for (int j = 0; j < grid.GetLength (1); j++) {
+				if(grid[i,j].walkable && !(i < 8))
+					spawnPoints.Add (grid [i, j].worldPosition); 
+			}
+		}
+
+
+		for (int i = 0; i < 20; i++) {
+			int spawnPointIndex = Random.Range (0, spawnPoints.Count);
+			Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
+			spawnPoints.RemoveAt (spawnPointIndex);
+		}
+
+		Debug.Log ("skeltas spawned");
+
+	}
+		
+	public void ActivateUnits() {
+		Destroy (enemyUnits [i]);
+
+
+
+		player.SetActive (true);
+
+		for (int j = 0; j < enemyUnits.Length; j++) {
+			enemyUnits [j].SetActive (true);
+		}
+	}
+
+
 }
