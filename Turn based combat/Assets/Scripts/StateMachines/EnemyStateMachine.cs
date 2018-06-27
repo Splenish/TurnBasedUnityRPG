@@ -33,6 +33,7 @@ public class EnemyStateMachine : MonoBehaviour {
     Animator anim;
     public GameObject Selector2;
     public GameObject FloatingTextPrefab;
+    private bool alive = true;
 
 
     
@@ -67,10 +68,38 @@ public class EnemyStateMachine : MonoBehaviour {
                 StartCoroutine(TimeForAction());
                 break;
             case (TurnState.Dead):
+                if (!alive)
+                {
+                    return;
+                }
+                else
+                {
+                    //change tag
+                    this.gameObject.tag = "DeadEnemy";
+                    //not attackable by enemy
+                    BSM.EnemiesInBattle.Remove(this.gameObject);
+                    //not manageable
+                    BSM.EnemiesInBattle.Remove(this.gameObject);
+                    //deactivate the selector
+                    Selector2.SetActive(false);
 
-                break;
+                    //remove item from performlist
+                    for (int i = 0; i < BSM.PerformList.Count; i++)
+                    {
+                        if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                        {
+                            BSM.PerformList.Remove(BSM.PerformList[i]);
+                        }
+                    }
+                    //change color  / play animation
+                    anim.SetTrigger("isDead");
+                    //reset heroinput
+
+
+                    alive = false;
+                    break;
+                }
         }
-
     }
 
     void UpdateProgress()
@@ -173,5 +202,13 @@ public class EnemyStateMachine : MonoBehaviour {
 
     }
    
-
+    public void TakeDamage(float getDamageAmount)
+    {
+        enemy.curHP -= getDamageAmount;
+        if(enemy.curHP <= 0)
+        {
+            enemy.curHP = 0;
+            currentState = TurnState.Dead;
+        }
+    }
 }
