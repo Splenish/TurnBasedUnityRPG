@@ -39,8 +39,12 @@ public class HeroStateMachine : MonoBehaviour {
     private HeroPanelStats stats;
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
-
+    public GameObject FloatingTextPrefab;
+    private bool isBasicAttack = false;
+    private bool isSlash = false;
     
+
+
 
 
 
@@ -99,7 +103,7 @@ public class HeroStateMachine : MonoBehaviour {
                     //deactivate the selector
                     Selector.SetActive(false);
                     //reset ui
-                    BSM.AttackPanel.SetActive(false);
+                    BSM.ActionPanel.SetActive(false);
                     BSM.EnemySelectPanel.SetActive(false);
                     //remove item from performlist
                     for(int i = 0; i<BSM.PerformList.Count; i++)
@@ -149,16 +153,20 @@ public class HeroStateMachine : MonoBehaviour {
         Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.8f, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
         while (MoveTowardsEnemy(enemyPosition))
         {
+            anim.SetBool("isBasicAttack", true);
             yield return null;
         }
         // oota hetki
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.2f);
         // tee dmg
 
+        
+        DoDamage();
         // animaatio takas startpositioniin
         Vector3 firstPosition = startPosition;
         while (MoveTowardsStart(firstPosition))
         {
+            anim.SetBool("isBasicAttack", false);
             yield return null;
         }
 
@@ -209,8 +217,8 @@ public class HeroStateMachine : MonoBehaviour {
         HeroPanel = Instantiate(HeroPanel) as GameObject;
         stats = HeroPanel.GetComponent<HeroPanelStats>();
         stats.HeroName.text = hero.theName;
-        stats.HeroHP.text = "" + hero.curHP;
-        stats.HeroMP.text = "" + hero.curMP;
+        stats.HeroHP.text = "" + hero.curHP + "/" + hero.baseHP;
+        stats.HeroMP.text = "" + hero.curMP + "/" + hero.baseMP;
         ProgressBar = stats.ProgressBar;
         HeroPanel.transform.SetParent(HeroPanelSpacer, false);
         
@@ -218,8 +226,8 @@ public class HeroStateMachine : MonoBehaviour {
 
     void UpdateHeroPanel()
     {
-        stats.HeroHP.text = "" + hero.curHP;
-        stats.HeroMP.text = "" + hero.curMP;
+        stats.HeroHP.text = "" + hero.curHP + "/" + hero.baseHP;
+        stats.HeroMP.text = "" + hero.curMP + "/" + hero.baseMP;
     }
 
     IEnumerator TakeHit()
@@ -228,4 +236,19 @@ public class HeroStateMachine : MonoBehaviour {
         anim.SetTrigger("Idle");
     }
     
+    //do damage
+    void DoDamage()
+    {
+        float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
+        if (FloatingTextPrefab)
+        {
+            Vector3 HeroTextPosition = new Vector3(EnemyToAttack.transform.position.x, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
+            var go = Instantiate(FloatingTextPrefab, HeroTextPosition, Quaternion.identity);
+
+            go.GetComponent<TextMesh>().text = "" + calc_damage;
+        }
+    }
+
+ 
 }
