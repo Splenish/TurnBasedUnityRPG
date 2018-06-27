@@ -8,25 +8,27 @@ public class Player : Unit {
 	void Start () {
 		remainingMovement = moveSpeed;
 		//currentUnit = gm.GetComponent<GameManager>().currentUnit;
-		currentUnit = this.gameObject;
-		anim = currentUnit.GetComponentInChildren<Animator> ();
+		//currentUnit = this.gameObject;
+		anim = this.gameObject.GetComponentInChildren<Animator> ();
 		gm = GameObject.Find ("GameManager");
 		moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
 	}
 
 
 	public void MoveUnitButton() {
-		if (remainingMovement > 0) {
-			if (!moving && currentPath != null) {
-				if (firstMove) {
-					if (currentPath.Count != 1) {
-						//remainingMovement--;
-						moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
+		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+		if (gs == GameManager.GameState.myTurn) {
+			if (remainingMovement > 0) {
+				if (!moving && currentPath != null) {
+					if (firstMove) {
+						if (currentPath.Count != 1) {
+							//remainingMovement--;
+							moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
+						}
+						firstMove = false;
 					}
-					firstMove = false;
+					moving = true;
 				}
-
-				moving = true;
 			}
 		}
 	}

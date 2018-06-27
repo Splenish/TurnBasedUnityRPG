@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour {
 
 	Quaternion rotation;
 
-	public GameObject currentUnit;
+	//public GameObject currentUnit;
 
 	public GameObject gm;
 
@@ -32,9 +32,12 @@ public class Unit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+
+
 		remainingMovement = moveSpeed;
-		currentUnit = this.gameObject;
-		anim = currentUnit.GetComponentInChildren<Animator> ();
+		//currentUnit = this.gameObject;
+		anim = this.gameObject.GetComponentInChildren<Animator> ();
 		gm = GameObject.Find ("GameManager");
 	}
 

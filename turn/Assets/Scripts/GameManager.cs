@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 
 	public Quaternion rotation;
 
+
+	public static GameManager Instance;
 	public enum GameState
 	{
 		myTurn,
@@ -43,6 +45,14 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake()
 	{
+
+		if (Instance == null) {
+			DontDestroyOnLoad (gameObject);
+			Instance = this;
+		} else if(Instance != this) {
+			Destroy(gameObject);
+		}
+
 		currentUnit = GameObject.Find ("Player");
 		currentGameState = GameState.myTurn;
 		player = GameObject.Find ("Player");
@@ -60,7 +70,7 @@ public class GameManager : MonoBehaviour
 
 		for (int i = 0; i < grid.GetLength (0); i++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
-				if(grid[i,j].walkable)
+				if(grid[i,j].walkable && !(i < 8))
 					spawnPoints.Add (grid [i, j].worldPosition); 
 			}
 		}
@@ -70,6 +80,7 @@ public class GameManager : MonoBehaviour
 			Debug.Log ("paska");
 			int spawnPointIndex = Random.Range (0, spawnPoints.Count);
 			Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
+			spawnPoints.RemoveAt (spawnPointIndex);
 		}
 
 		enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
@@ -106,6 +117,6 @@ public class GameManager : MonoBehaviour
 
 	public void StartCombat() {
 		Debug.Log ("vomat");
-		//SceneManager.LoadScene ("fighttoooscennoo");
+		SceneManager.LoadScene ("TestScene");
 	}
 }

@@ -23,7 +23,7 @@ public class GameGrid : MonoBehaviour {
 
 	public GameObject playerObject;
 
-	int playerSpeed;
+	//int playerSpeed;
 
 	void Awake() {
 		pathLine = new GameObject ();
@@ -37,7 +37,7 @@ public class GameGrid : MonoBehaviour {
 		lr.endWidth = 0.2f;
 		lr.useWorldSpace = true;
 
-		playerSpeed = playerObject.GetComponent<Unit> ().remainingMovement;
+		//playerSpeed = playerObject.GetComponent<Unit> ().remainingMovement;
 
 
 		nodeDiameter = nodeRadius * 2;
@@ -55,7 +55,7 @@ public class GameGrid : MonoBehaviour {
 		//	path = null;
 
 
-
+		CreateGrid ();
 		DrawPath ();
 	}
 

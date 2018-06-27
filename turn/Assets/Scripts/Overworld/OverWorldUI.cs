@@ -27,7 +27,7 @@ public class OverWorldUI : MonoBehaviour {
 	public void NextTurn() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 
-		if (gs == GameManager.GameState.myTurn) {
+		if (gs == GameManager.GameState.myTurn && currentUnit.GetComponent<Unit>().moving != true) {
 
 			gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.enemyTurn;
 

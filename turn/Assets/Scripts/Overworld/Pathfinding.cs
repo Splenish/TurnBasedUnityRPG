@@ -20,8 +20,9 @@ public class Pathfinding : MonoBehaviour {
 
 	void Awake() {
 		grid = GetComponent<GameGrid> ();
-		currentUnit = GameObject.Find ("Player");
+		//currentUnit = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
+		currentUnit = gm.GetComponent<GameManager>().currentUnit;
 	}
 
 	void Update() {
