@@ -26,16 +26,7 @@ public class GameGrid : MonoBehaviour {
 	//int playerSpeed;
 
 	void Awake() {
-		pathLine = new GameObject ();
-		pathLine.transform.position = player.position;
-		pathLine.AddComponent<LineRenderer> ();
-		lr = pathLine.GetComponent<LineRenderer> ();
-
-		lr.material = pathLineMat;
-
-		lr.startWidth = 0.2f;
-		lr.endWidth = 0.2f;
-		lr.useWorldSpace = true;
+		CreatePathLine ();
 
 		//playerSpeed = playerObject.GetComponent<Unit> ().remainingMovement;
 
@@ -53,6 +44,10 @@ public class GameGrid : MonoBehaviour {
 
 		//if(gs == GameManager.GameState.enemyTurn)
 		//	path = null;
+
+		if (lr == null) {
+			CreatePathLine ();
+		}
 
 
 		CreateGrid ();
@@ -148,5 +143,18 @@ public class GameGrid : MonoBehaviour {
 		}
 	}
 
+
+	void CreatePathLine() {
+		pathLine = new GameObject ();
+		pathLine.transform.position = player.position;
+		pathLine.AddComponent<LineRenderer> ();
+		lr = pathLine.GetComponent<LineRenderer> ();
+
+		lr.material = pathLineMat;
+
+		lr.startWidth = 0.2f;
+		lr.endWidth = 0.2f;
+		lr.useWorldSpace = true;
+	}
 
 }

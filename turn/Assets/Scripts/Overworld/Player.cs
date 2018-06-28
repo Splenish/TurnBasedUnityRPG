@@ -5,12 +5,26 @@ using UnityEngine;
 public class Player : Unit {
 
 
-	void Start () {
-		remainingMovement = moveSpeed;
+	public static Player Instance;
+
+	void Awake () {
+
+		if (Instance == null) {
+			DontDestroyOnLoad (gameObject);
+			Instance = this;
+
+			remainingMovement = moveSpeed;
+			anim = this.gameObject.GetComponentInChildren<Animator> ();
+			gm = GameObject.Find ("GameManager");
+		} else if(Instance != this) {
+			Destroy(gameObject);
+		}
+
+
 		//currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		//currentUnit = this.gameObject;
-		anim = this.gameObject.GetComponentInChildren<Animator> ();
-		gm = GameObject.Find ("GameManager");
+
+
 		moveText.text = remainingMovement.ToString() + "/" + moveSpeed.ToString();
 	}
 
@@ -36,6 +50,10 @@ public class Player : Unit {
 	public void StartTurn() {
 		remainingMovement = moveSpeed;
 		//anim = currentUnit.GetComponentInChildren<Animator> ();
+
+		if (moveText == null)
+			moveText = GameObject.Find ("MoveText").GetComponent<UnityEngine.UI.Text>();
+
 		moveText.text = remainingMovement.ToString () + "/" + moveSpeed.ToString ();
 		gm.GetComponent<GameManager> ().i = 0;
 		currentPath = null;
@@ -44,5 +62,3 @@ public class Player : Unit {
 	}
 
 }
-
-

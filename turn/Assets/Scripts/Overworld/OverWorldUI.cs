@@ -18,10 +18,10 @@ public class OverWorldUI : MonoBehaviour {
 		currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		moveText.text = currentUnit.GetComponent<Unit>().remainingMovement.ToString() + "/" + currentUnit.GetComponent<Unit>().moveSpeed.ToString();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	public void NextTurn() {

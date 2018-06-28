@@ -16,9 +16,19 @@ public class Pathfinding : MonoBehaviour {
 
 	public List<Node> oldPath;
 
+	public static Pathfinding Instance;
+
 	int i;
 
 	void Awake() {
+
+		if (Instance == null) {
+			DontDestroyOnLoad (gameObject);
+			Instance = this;
+		} else if(Instance != this) {
+			Destroy(gameObject);
+		}
+
 		grid = GetComponent<GameGrid> ();
 		//currentUnit = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
@@ -27,6 +37,11 @@ public class Pathfinding : MonoBehaviour {
 
 	void Update() {
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
+
+		if(currentUnit == null)
+			currentUnit = gm.GetComponent<GameManager>().currentUnit;
+
+		seeker = currentUnit.transform;
 		//Debug.Log ("gs pathfinding: " + gs);
 		if (gs == GameManager.GameState.myTurn) {
 			if (currentUnit.name != "Player") {
