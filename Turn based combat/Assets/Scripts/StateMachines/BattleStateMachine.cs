@@ -51,11 +51,15 @@ public class BattleStateMachine : MonoBehaviour {
     public GameObject actionButton;
     public GameObject magicButton;
     private List<GameObject> actBtns = new List<GameObject>();
+    public bool basicAttack = false;
+    public bool magicAttack = false;
+    Animator anim;
     
 
 
     void Start () {
-        
+
+        anim = GetComponent<Animator>();
         battleStates = PerformAction.Wait;
         HeroesInBattle.AddRange(GameObject.FindGameObjectsWithTag("Hero"));
         EnemiesInBattle.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -205,6 +209,9 @@ public class BattleStateMachine : MonoBehaviour {
         ActionPanel.SetActive(false);
         EnemySelectPanel.SetActive(true);
         HeroSelectPanel.SetActive(false);
+        basicAttack = true;
+        
+            
         
     }
 
@@ -284,6 +291,9 @@ public class BattleStateMachine : MonoBehaviour {
         MagicPanel.SetActive(false);
         HeroSelectPanel.SetActive(false);
         EnemySelectPanel.SetActive(true);
+        magicAttack = true;
+        
+        
         
     }
 

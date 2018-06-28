@@ -131,8 +131,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     private IEnumerator TimeForAction()
     {
-        //if (completeTurn == true)
-        //{
+        
         if (actionStarted)
         {
             yield break;
@@ -172,8 +171,7 @@ public class EnemyStateMachine : MonoBehaviour {
         // resettaa enemy state
         cur_cooldown = 0f;
         currentState = TurnState.Processing;
-        // completeTurn = false;
-        // }
+       
 
     }
 

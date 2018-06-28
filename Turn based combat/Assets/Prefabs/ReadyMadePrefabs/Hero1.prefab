@@ -847,12 +847,14 @@ MonoBehaviour:
     dexterity: 10
     agility: 10
     Magics:
-    - {fileID: 114075712711933404, guid: 82ac8ea556bf9c34b92f7c9641f23bf1, type: 2}
+    - {fileID: 114992251897277548, guid: 82ac8ea556bf9c34b92f7c9641f23bf1, type: 2}
   currentState: 0
   Selector: {fileID: 1667132666485372}
   EnemyToAttack: {fileID: 0}
   isDead: 0
   HeroPanel: {fileID: 1948186799476490, guid: f7a1c971acb2ed241ab7b2b51d95b2bf, type: 2}
+  FloatingTextPrefab: {fileID: 1520477503821660, guid: 20a466c8b969d434f9851261d8f97b90,
+    type: 2}
 --- !u!114 &114281520243531790
 MonoBehaviour:
   m_ObjectHideFlags: 1

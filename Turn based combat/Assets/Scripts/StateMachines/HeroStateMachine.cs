@@ -8,6 +8,7 @@ public class HeroStateMachine : MonoBehaviour {
     private BattleStateMachine BSM;
     public BaseHero hero;
     
+    
 
     public enum TurnState
     {
@@ -42,6 +43,9 @@ public class HeroStateMachine : MonoBehaviour {
     public GameObject FloatingTextPrefab;
     private bool isBasicAttack = false;
     private bool isSlash = false;
+    private bool isHeal = false;
+    private bool attack = false;
+    public BattleStateMachine attackBool;
     
 
 
@@ -86,6 +90,8 @@ public class HeroStateMachine : MonoBehaviour {
                 break;
             case (TurnState.Action):
                 StartCoroutine(TimeForAction());
+
+               
                 break;
             case (TurnState.Dead):
                 if (!alive)
@@ -127,6 +133,16 @@ public class HeroStateMachine : MonoBehaviour {
 
     }
 
+    /*void asdasd()
+    {
+        anim.SetBool("isBasicAttack", false);
+            
+    }
+    void MagicAttack()
+    {
+        anim.SetBool("isSlash", false);
+    }
+    */
     void UpgradeProgressBar()
     {
         cur_cooldown = cur_cooldown + Time.deltaTime;
@@ -139,6 +155,7 @@ public class HeroStateMachine : MonoBehaviour {
 
     }
 
+  
     private IEnumerator TimeForAction()
     {
         if (actionStarted)
@@ -154,35 +171,39 @@ public class HeroStateMachine : MonoBehaviour {
         while (MoveTowardsEnemy(enemyPosition))
         {
             anim.SetBool("isBasicAttack", true);
+           
             yield return null;
         }
         // oota hetki
         yield return new WaitForSeconds(1.2f);
         // tee dmg
-
-        
         DoDamage();
+
+
         // animaatio takas startpositioniin
         Vector3 firstPosition = startPosition;
         while (MoveTowardsStart(firstPosition))
         {
+            anim.SetBool("isSlash", false);
             anim.SetBool("isBasicAttack", false);
+  
             yield return null;
-        }
 
+        }
+        // lopeta coroutine
+        actionStarted = false;
         // poista performance BSM listasta
         BSM.PerformList.RemoveAt(0);
 
         // resettaa BSM -> Wait
         BSM.battleStates = BattleStateMachine.PerformAction.Wait;
-
-        // lopeta coroutine
-        actionStarted = false;
-
-        // resettaa enemy state
         cur_cooldown = 0f;
         currentState = TurnState.Processing;
-        //completeTurn = true;
+
+        attackBool.basicAttack = false;
+        attackBool.magicAttack = false;
+        // resettaa enemy state
+       
 
     }
 
@@ -210,6 +231,18 @@ public class HeroStateMachine : MonoBehaviour {
         UpdateHeroPanel();
     }
 
+    void DoDamage()
+    {
+        float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
+        if (FloatingTextPrefab)
+        {
+            Vector3 HeroTextPosition = new Vector3(EnemyToAttack.transform.position.x, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
+            var go = Instantiate(FloatingTextPrefab, HeroTextPosition, Quaternion.identity);
+
+            go.GetComponent<TextMesh>().text = "" + calc_damage;
+        }
+    }
     
 
     void CreateHeroPanel()
@@ -235,10 +268,29 @@ public class HeroStateMachine : MonoBehaviour {
         yield return new WaitForSeconds(1);
         anim.SetTrigger("Idle");
     }
-    
-    //do damage
-    void DoDamage()
+
+     /*private IEnumerator BasicAttack()
     {
+       
+
+        if (actionStarted)
+        {
+            yield break;
+        }
+
+        actionStarted = true;
+
+
+        // animaatio enemylle 
+        Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.8f, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
+        while (MoveTowardsEnemy(enemyPosition))
+        {
+            anim.SetBool("isBasicAttack", true);
+            yield return null;
+        }
+        // oota hetki
+        yield return new WaitForSeconds(1.2f);
+        // tee dmg
         float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
         if (FloatingTextPrefab)
@@ -248,7 +300,87 @@ public class HeroStateMachine : MonoBehaviour {
 
             go.GetComponent<TextMesh>().text = "" + calc_damage;
         }
-    }
 
- 
+
+        // animaatio takas startpositioniin
+        Vector3 firstPosition = startPosition;
+        while (MoveTowardsStart(firstPosition))
+        {
+            
+           // anim.SetBool("isBasicAttack", false);
+            attackBool.basicAttack = false;
+            yield return null;
+            
+        }
+
+        // poista performance BSM listasta
+        BSM.PerformList.RemoveAt(0);
+
+        // resettaa BSM -> Wait
+        BSM.battleStates = BattleStateMachine.PerformAction.Wait;
+
+        // lopeta coroutine
+        actionStarted = false;
+
+        // resettaa enemy state
+        cur_cooldown = 0f;
+        currentState = TurnState.Processing;
+        
+    }
+    */
+   /* private IEnumerator MagicAttack()
+    {
+        if (actionStarted)
+        {
+            yield break;
+        }
+
+        actionStarted = true;
+
+
+        // animaatio enemylle 
+        Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.8f, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
+        while (MoveTowardsEnemy(enemyPosition))
+        {
+            anim.SetBool("isSlash", true);
+            yield return null;
+        }
+        // oota hetki
+        yield return new WaitForSeconds(1.2f);
+        // tee dmg
+        float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
+        if (FloatingTextPrefab)
+        {
+            Vector3 HeroTextPosition = new Vector3(EnemyToAttack.transform.position.x, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
+            var go = Instantiate(FloatingTextPrefab, HeroTextPosition, Quaternion.identity);
+
+            go.GetComponent<TextMesh>().text = "" + calc_damage;
+        }
+
+
+        // animaatio takas startpositioniin
+        Vector3 firstPosition = startPosition;
+        while (MoveTowardsStart(firstPosition))
+        {
+            anim.SetBool("isSlash", false);
+            attackBool.magicAttack = false;
+            yield return null;
+        }
+
+        // poista performance BSM listasta
+        BSM.PerformList.RemoveAt(0);
+
+        // resettaa BSM -> Wait
+        BSM.battleStates = BattleStateMachine.PerformAction.Wait;
+
+        // lopeta coroutine
+        actionStarted = false;
+
+        // resettaa enemy state
+        cur_cooldown = 0f;
+        currentState = TurnState.Processing;
+        
+    }*/
+
 }
