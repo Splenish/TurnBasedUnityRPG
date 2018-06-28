@@ -41,29 +41,33 @@ public class EnemyUnit : Unit {
 		aggroTrigger.transform.localRotation = Quaternion.Inverse (transform.rotation);
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		//Debug.Log ("gs enemyUnitis: " + gs);
-		if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
-			if (checkIfInAggrorange ()) {
-				//Debug.Log ("if in aggrorange");
-				moving = true;
-				if (firstMove) {
-					//remainingMovement--;
-					firstMove = false;
-				}		
 
-				FinishEnemyTurn ();
-				MoveUnit ();
-			} else {
-				gm.GetComponent<GameManager> ().i++;
-				Debug.Log ("i++");
-				remainingMovement = moveSpeed;
-				//Debug.Log ("GM:n i: " + gm.GetComponent<GameManager> ().i);
-				if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
-					Debug.Log ("PLayerin vuorolle");
-					gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
-					player.GetComponent<Player> ().StartTurn ();
-				}	
+		if (gm.GetComponent<GameManager> ().currentUnit.gameObject != null) {
+			if (gs == GameManager.GameState.enemyTurn && gm.GetComponent<GameManager> ().currentUnit.gameObject == this.gameObject) {
+				if (checkIfInAggrorange ()) {
+					//Debug.Log ("if in aggrorange");
+					moving = true;
+					if (firstMove) {
+						//remainingMovement--;
+						firstMove = false;
+					}		
+
+					FinishEnemyTurn ();
+					MoveUnit ();
+				} else {
+					gm.GetComponent<GameManager> ().i++;
+					Debug.Log ("i++");
+					remainingMovement = moveSpeed;
+					//Debug.Log ("GM:n i: " + gm.GetComponent<GameManager> ().i);
+					if (gm.GetComponent<GameManager> ().i > enemyUnits - 1) {
+						Debug.Log ("PLayerin vuorolle");
+						gm.GetComponent<GameManager> ().CurrentGameState = GameManager.GameState.myTurn;
+						player.GetComponent<Player> ().StartTurn ();
+					}	
+				}
 			}
 		}
+
 	}
 
 	bool checkIfInAggrorange() {
@@ -102,7 +106,7 @@ public class EnemyUnit : Unit {
 
 	public void PullTrigger(Collider c) {
 		if (c.gameObject.tag == "Player") {
-			gm.GetComponent<GameManager> ().StartCombat ();
+			gm.GetComponent<GameManager> ().StartCombat (this.gameObject);
 		}
 	}
 }

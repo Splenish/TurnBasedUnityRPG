@@ -30,6 +30,7 @@ public class Player : Unit {
 
 
 	public void MoveUnitButton() {
+		Debug.Log ("moveinit button");
 		GameManager.GameState gs = gm.GetComponent<GameManager> ().CurrentGameState;
 		if (gs == GameManager.GameState.myTurn) {
 			if (remainingMovement > 0) {
