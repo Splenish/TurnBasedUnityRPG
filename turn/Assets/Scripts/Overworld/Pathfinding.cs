@@ -41,7 +41,10 @@ public class Pathfinding : MonoBehaviour {
 		if(currentUnit == null)
 			currentUnit = gm.GetComponent<GameManager>().currentUnit;
 
-		seeker = currentUnit.transform;
+
+		if(currentUnit != null)
+			seeker = currentUnit.transform;
+		
 		//Debug.Log ("gs pathfinding: " + gs);
 		if (gs == GameManager.GameState.myTurn) {
 			if (currentUnit.name != "Player") {
@@ -54,35 +57,39 @@ public class Pathfinding : MonoBehaviour {
 			currentUnit = gm.GetComponent<GameManager>().currentUnit;
 		}
 
-		if (gs == GameManager.GameState.enemyTurn) {
-			Debug.Log ("enemy turn");
-			if (currentUnit.tag != "Enemy") {
-				//oldPath = grid.path;
+		if (currentUnit != null) {
+
+			if (gs == GameManager.GameState.enemyTurn) {
+				Debug.Log ("enemy turn");
+				if (currentUnit.tag != "Enemy") {
+					//oldPath = grid.path;
+					i = gm.GetComponent<GameManager> ().i;
+					currentUnit = gm.GetComponent<GameManager> ().currentUnit;
+					Debug.Log ("current unit pathfindingisa " + currentUnit);
+					//currentUnit = GameObject.Find ("SkeletonEnemy");
+					FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
+					currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+					//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
+					//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
+					//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
+				}
+
+				if (i < gm.GetComponent<GameManager> ().i) {
+
+					currentUnit = gm.GetComponent<GameManager> ().currentUnit;
+					Debug.Log ("current unit pathfindingisa " + currentUnit);
+					//currentUnit = GameObject.Find ("SkeletonEnemy");
+					FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
+					currentUnit.GetComponent<Unit> ().currentPath = grid.path;
+					//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
+					//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
+					//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
+				}
+
 				i = gm.GetComponent<GameManager> ().i;
-				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
-				Debug.Log ("current unit pathfindingisa " + currentUnit);
-				//currentUnit = GameObject.Find ("SkeletonEnemy");
-				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
-				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
-				//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
-				//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
-				//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
 			}
-
-			if (i < gm.GetComponent<GameManager> ().i) {
-
-				currentUnit = gm.GetComponent<GameManager> ().currentUnit;
-				Debug.Log ("current unit pathfindingisa " + currentUnit);
-				//currentUnit = GameObject.Find ("SkeletonEnemy");
-				FindPath (currentUnit.transform.position, currentUnit.GetComponent<EnemyUnit> ().target);
-				currentUnit.GetComponent<Unit> ().currentPath = grid.path;
-				//Debug.Log ("currentUnit gameobject kun asetetaan pathia" + currentUnit.gameObject);
-				//Debug.Log ("currentUnit current path" + currentUnit.GetComponent<Unit> ().currentPath);
-				//Debug.Log ("currentPath count" + currentUnit.GetComponent<Unit> ().currentPath.Count);
-			}
-
-			i = gm.GetComponent<GameManager> ().i;
 		}
+
 
 		if (Input.GetMouseButtonDown(0) && !currentUnit.GetComponent<Unit>().moving  && !EventSystem.current.IsPointerOverGameObject() && gs == GameManager.GameState.myTurn) {
 			RaycastHit hit;

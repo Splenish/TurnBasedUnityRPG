@@ -16,7 +16,7 @@ public class MongoloidScript : MonoBehaviour {
 
 	public void OnMongoloidPress() {
 		gm.GetComponent<GameManager> ().ActivateUnits ();	
-		SceneManager.LoadScene ("OverWorld");
+		SceneManager.LoadScene ("world");
 	}
 
 }

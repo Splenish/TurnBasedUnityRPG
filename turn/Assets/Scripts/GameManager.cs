@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 	public GameObject currentUnit;
 
 
+	GameObject battleEnemy;
+
 	bool enemyTurnStart = true;
 
 	bool playerTurnStart = true;
@@ -113,7 +115,10 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void StartCombat() {
+	public void StartCombat(GameObject triggeredEnemy) {
+
+		battleEnemy = triggeredEnemy;
+
 		Debug.Log ("vomat");
 		player.SetActive (false);
 
@@ -144,9 +149,9 @@ public class GameManager : MonoBehaviour
 	}
 		
 	public void ActivateUnits() {
-		Destroy (enemyUnits [i]);
+		//Destroy (enemyUnits [i]);
 
-
+		Destroy (battleEnemy);
 
 		player.SetActive (true);
 

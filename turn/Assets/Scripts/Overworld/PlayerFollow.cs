@@ -28,12 +28,17 @@ public class PlayerFollow : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
 
-		if(gm.GetComponent<GameManager> ().currentUnit.GetComponent<Unit>().moving || gm.GetComponent<GameManager>().CurrentGameState == GameManager.GameState.myTurn) 
-			PlayerTransform = gm.GetComponent<GameManager> ().currentUnit.transform;
+		if (gm.GetComponent<GameManager> ().currentUnit != null) {
+			if (gm.GetComponent<GameManager> ().currentUnit.GetComponent<Unit> ().moving || gm.GetComponent<GameManager> ().CurrentGameState == GameManager.GameState.myTurn)
+				PlayerTransform = gm.GetComponent<GameManager> ().currentUnit.transform;
+		}
 
-        Vector3 newPos = PlayerTransform.position + _cameraOffset;
-
-        transform.position = Vector3.Slerp(transform.position, newPos, SmoothFactor);
+		Vector3 newPos;
+		if (PlayerTransform != null) {
+			newPos = PlayerTransform.position + _cameraOffset;
+			transform.position = Vector3.Slerp(transform.position, newPos, SmoothFactor);
+		}
+        
 
         if (RotateAroundPlayer && Input.GetMouseButton(1))
         {
