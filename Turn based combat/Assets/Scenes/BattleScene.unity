@@ -407,80 +407,80 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalPosition.x
       value: 446.65726
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalPosition.y
       value: 62.08307
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalPosition.z
       value: 2.711853
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4107287204236618, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+    - target: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: Spacer
       value: 
       objectReference: {fileID: 179961921}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: Spacer2
       value: 
       objectReference: {fileID: 1420244421}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: ActionPanel
       value: 
       objectReference: {fileID: 937650261}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: EnemySelectPanel
       value: 
       objectReference: {fileID: 379454738}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: MagicPanel
       value: 
       objectReference: {fileID: 658260757}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: HeroSelectPanel
       value: 
       objectReference: {fileID: 238080889}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: actionSpacer
       value: 
       objectReference: {fileID: 284155942}
-    - target: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+    - target: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
         type: 2}
       propertyPath: magicSpacer
       value: 
       objectReference: {fileID: 1743430289}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 878e0fb6e51976443b20abd0ac6e3dfd, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 2a78293857c8ab44b95c73ddb4e41312, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1099335025
 Prefab:
@@ -744,6 +744,57 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224142165430126068, guid: 3f2248a3d9f415248a2886e6e7659629,
     type: 2}
   m_PrefabInternal: {fileID: 1654335703}
+--- !u!1 &1583284228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1190085083235470, guid: 2a78293857c8ab44b95c73ddb4e41312,
+    type: 2}
+  m_PrefabInternal: {fileID: 986893260}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1583284230}
+  - component: {fileID: 1964194626}
+  - component: {fileID: 1583284229}
+  m_Layer: 0
+  m_Name: BattleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!95 &1583284229
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 95491246048055344, guid: 2a78293857c8ab44b95c73ddb4e41312,
+    type: 2}
+  m_PrefabInternal: {fileID: 986893260}
+  m_GameObject: {fileID: 1583284228}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f8015747a2597b4cac3d74e906b0a3d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &1583284230
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4826565969338662, guid: 2a78293857c8ab44b95c73ddb4e41312,
+    type: 2}
+  m_PrefabInternal: {fileID: 986893260}
+  m_GameObject: {fileID: 1583284228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 446.65726, y: 62.08307, z: 2.711853}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1654335703
 Prefab:
   m_ObjectHideFlags: 0
@@ -963,9 +1014,44 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddd56db7ab92dfe46b9f779edf707c06, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1964194626 stripped
+--- !u!114 &1964194626
 MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114099510905586198, guid: 2a78293857c8ab44b95c73ddb4e41312,
     type: 2}
   m_PrefabInternal: {fileID: 986893260}
+  m_GameObject: {fileID: 1583284228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52df5a792601a694b80ead8ed1963d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleStates: 0
+  PerformList: []
+  HeroesInBattle: []
+  EnemiesInBattle: []
+  HeroInput: 0
+  HeroesToManage: []
+  enemyButton: {fileID: 1173880251792848, guid: e39de7ac04dad50469577aef4d4c3c3c,
+    type: 2}
+  heroButton: {fileID: 1166004865302332, guid: 470fb24c8c1fda54694db8cae207c010, type: 2}
+  Spacer: {fileID: 179961921}
+  Spacer2: {fileID: 1420244421}
+  ActionPanel: {fileID: 937650261}
+  EnemySelectPanel: {fileID: 379454738}
+  MagicPanel: {fileID: 658260757}
+  HeroSelectPanel: {fileID: 238080889}
+  actionSpacer: {fileID: 284155942}
+  magicSpacer: {fileID: 1743430289}
+  actionButton: {fileID: 1145407779369514, guid: c85fb60c23ae0904e8d61cfbab95eb26,
+    type: 2}
+  magicButton: {fileID: 1366690450845368, guid: b4c832b776080124d83c24dcea00e8b4,
+    type: 2}
+  basicAttack: 0
+  magicAttack: 0
+  VictoryTextPrefab: {fileID: 1642234645359758, guid: 58e01046d0eed7d40a113fd9c0912f00,
+    type: 2}
+  LoseTextPrefab: {fileID: 1642234645359758, guid: 3813f20bc33cb59499b2dfc83268fe0c,
+    type: 2}
+  victoryBool: 0
+  loseBool: 0
