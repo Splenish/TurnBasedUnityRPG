@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 95517625485489596}
   - component: {fileID: 114214581731922770}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -799,9 +799,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy:
-    theName: Enemy1
-    baseHP: 500
-    curHP: 500
+    theName: Enemy4
+    baseHP: 1000
+    curHP: 1000
     baseMP: 100
     curMP: 100
     baseATK: 10
@@ -818,6 +818,9 @@ MonoBehaviour:
   HeroToAttack: {fileID: 0}
   Selector2: {fileID: 1494297468175896, guid: 3da2f53ee160b3b4595b1de6a285f5a4, type: 2}
   FloatingTextPrefab: {fileID: 1520477503821660, guid: 20a466c8b969d434f9851261d8f97b90,
+    type: 2}
+  EnemyPanel: {fileID: 1948186799476490, guid: 9b5f7559765c13f4da4226fa9e684323, type: 2}
+  attackBool: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
     type: 2}
 --- !u!114 &114521894463942726
 MonoBehaviour:

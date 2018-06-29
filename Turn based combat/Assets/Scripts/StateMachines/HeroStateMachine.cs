@@ -18,6 +18,7 @@ public class HeroStateMachine : MonoBehaviour {
         Selecting,
         Action,
         Dead
+       
     }
 
     public TurnState currentState;
@@ -41,10 +42,12 @@ public class HeroStateMachine : MonoBehaviour {
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
     public GameObject FloatingTextPrefab;
+    
     private bool isBasicAttack = false;
     private bool isSlash = false;
     private bool isHeal = false;
     private bool attack = false;
+    
     public BattleStateMachine attackBool;
     
 
@@ -62,7 +65,7 @@ public class HeroStateMachine : MonoBehaviour {
         
         anim = GetComponent<Animator>();
         startPosition = transform.position;
-        cur_cooldown = Random.Range(0, 2f);
+        cur_cooldown = Random.Range(0, 2.5f);
         Selector.SetActive(false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.Processing;
@@ -72,64 +75,87 @@ public class HeroStateMachine : MonoBehaviour {
 
     void Update()
     {
-        //Debug.Log(currentState);
-        switch(currentState)
+        if (attackBool.victoryBool)
         {
-            case (TurnState.Processing):
-                UpgradeProgressBar();
-                break;
-            case (TurnState.Addtolist):
-                BSM.HeroesToManage.Add(this.gameObject);
-                currentState = TurnState.Waiting;
-                break;
-            case (TurnState.Waiting):
-
-                break;
-            case (TurnState.Selecting):
-
-                break;
-            case (TurnState.Action):
-                StartCoroutine(TimeForAction());
-
-               
-                break;
-            case (TurnState.Dead):
-                if (!alive)
-                {
-                    return;
-                }
-                else
-                {
-                    //change tag
-                    this.gameObject.tag = "DeadHero";
-                    //not attackable by enemy
-                    BSM.HeroesInBattle.Remove(this.gameObject);
-                    //not manageable
-                    BSM.HeroesToManage.Remove(this.gameObject);
-                    //deactivate the selector
-                    Selector.SetActive(false);
-                    //reset ui
-                    BSM.ActionPanel.SetActive(false);
-                    BSM.EnemySelectPanel.SetActive(false);
-                    //remove item from performlist
-                    for(int i = 0; i<BSM.PerformList.Count; i++)
-                    {
-                        if(BSM.PerformList[i].AttackersGameObject == this.gameObject)
-                        {
-                            BSM.PerformList.Remove(BSM.PerformList[i]);
-                        }
-                    }
-                    //change color  / play animation
-                    anim.SetBool("isDead", true);
-                    //reset heroinput
-                    BSM.HeroInput = BattleStateMachine.HeroGui.Activate;
-
-                    alive = false;
-                    
-                }
-                break;
+            anim.SetBool("isVictory", true);
+            
         }
+        else
+        {
 
+            //Debug.Log(currentState);
+            switch (currentState)
+            {
+                case (TurnState.Processing):
+                    UpgradeProgressBar();
+                    break;
+                case (TurnState.Addtolist):
+                    BSM.HeroesToManage.Add(this.gameObject);
+                    currentState = TurnState.Waiting;
+                    break;
+                case (TurnState.Waiting):
+
+                    break;
+                case (TurnState.Selecting):
+
+                    break;
+
+                case (TurnState.Action):
+
+                    StartCoroutine(TimeForAction());
+
+                    break;
+                case (TurnState.Dead):
+                    if (!alive)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        //change tag
+                        this.gameObject.tag = "DeadHero";
+                        //not attackable by enemy
+                        BSM.HeroesInBattle.Remove(this.gameObject);
+                        //not manageable
+                        BSM.HeroesToManage.Remove(this.gameObject);
+                        //deactivate the selector
+                        Selector.SetActive(false);
+                        //reset ui
+                        BSM.ActionPanel.SetActive(false);
+                        BSM.EnemySelectPanel.SetActive(false);
+                        //remove item from performlist
+                        if (BSM.HeroesInBattle.Count > 0)
+                        {
+
+
+                            for (int i = 0; i < BSM.PerformList.Count; i++)
+                            {
+                                if (i != 0)
+                                {
+
+
+                                    if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                    {
+                                        BSM.PerformList.Remove(BSM.PerformList[i]);
+                                    }
+
+                                    if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                    {
+                                        BSM.PerformList[i].AttackersTarget = BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)];
+                                    }
+                                }
+                            }
+                        }
+                        //change color  / play animation
+                        anim.SetBool("isDead", true);
+                        //reset heroinput
+                        BSM.battleStates = BattleStateMachine.PerformAction.Checkalive;
+                        alive = false;
+
+                    }
+                    break;
+            }
+        }
 
     }
 
@@ -194,12 +220,20 @@ public class HeroStateMachine : MonoBehaviour {
         actionStarted = false;
         // poista performance BSM listasta
         BSM.PerformList.RemoveAt(0);
+        if (BSM.battleStates != BattleStateMachine.PerformAction.Win && BSM.battleStates != BattleStateMachine.PerformAction.Lose)
+        {
 
-        // resettaa BSM -> Wait
-        BSM.battleStates = BattleStateMachine.PerformAction.Wait;
-        cur_cooldown = 0f;
-        currentState = TurnState.Processing;
 
+            // resettaa BSM -> Wait
+            BSM.battleStates = BattleStateMachine.PerformAction.Wait;
+            cur_cooldown = 0f;
+            currentState = TurnState.Processing;
+        }
+        else
+        {
+            
+            currentState = TurnState.Waiting;
+        }
         attackBool.basicAttack = false;
         attackBool.magicAttack = false;
         // resettaa enemy state
@@ -231,10 +265,19 @@ public class HeroStateMachine : MonoBehaviour {
         UpdateHeroPanel();
     }
 
+    public void MagicCost()
+    {
+        hero.curMP -= BSM.PerformList[0].choosenAttack.attackCost;
+        UpdateHeroPanel();
+    }
+
     void DoDamage()
     {
         float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        float calc_magicCost = hero.curMP - BSM.PerformList[0].choosenAttack.attackCost;
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
+        MagicCost();
+        
         if (FloatingTextPrefab)
         {
             Vector3 HeroTextPosition = new Vector3(EnemyToAttack.transform.position.x, EnemyToAttack.transform.position.y, EnemyToAttack.transform.position.z);
@@ -242,6 +285,8 @@ public class HeroStateMachine : MonoBehaviour {
 
             go.GetComponent<TextMesh>().text = "" + calc_damage;
         }
+        
+        
     }
     
 

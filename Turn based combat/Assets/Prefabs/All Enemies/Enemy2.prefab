@@ -800,8 +800,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
     theName: Enemy2
-    baseHP: 500
-    curHP: 500
+    baseHP: 1000
+    curHP: 1000
     baseMP: 100
     curMP: 100
     baseATK: 10
@@ -818,6 +818,9 @@ MonoBehaviour:
   HeroToAttack: {fileID: 0}
   Selector2: {fileID: 1060530535561752}
   FloatingTextPrefab: {fileID: 1520477503821660, guid: 20a466c8b969d434f9851261d8f97b90,
+    type: 2}
+  EnemyPanel: {fileID: 1948186799476490, guid: 9b5f7559765c13f4da4226fa9e684323, type: 2}
+  attackBool: {fileID: 114783557732526684, guid: 878e0fb6e51976443b20abd0ac6e3dfd,
     type: 2}
 --- !u!114 &114965298685410936
 MonoBehaviour:
