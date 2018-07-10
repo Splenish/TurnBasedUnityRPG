@@ -35,10 +35,21 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject FloatingTextPrefab;
     private bool alive = true;
 
+    private EnemyPanelStats stats;
+    public GameObject EnemyPanel;
+    private Transform EnemyPanelSpacer;
 
-    
+    public BattleStateMachine attackBool;
+
+
+
     void Start()
     {
+        //find spacer
+        EnemyPanelSpacer = GameObject.Find("Battlecanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
+        //create panel, fill in info
+        CreateEnemyPanel();
+
         anim = GetComponent<Animator>();
         Selector2.SetActive(false);
         currentState = TurnState.Processing;
@@ -48,6 +59,12 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void Update()
     {
+
+        if (attackBool.loseBool)
+        {
+            anim.SetBool("Victory", true);
+
+        }
         //Debug.Log(currentState);
         switch (currentState)
         {
@@ -82,21 +99,33 @@ public class EnemyStateMachine : MonoBehaviour {
                     BSM.EnemiesInBattle.Remove(this.gameObject);
                     //deactivate the selector
                     Selector2.SetActive(false);
-
-                    //remove item from performlist
-                    for (int i = 0; i < BSM.PerformList.Count; i++)
+                    if (BSM.EnemiesInBattle.Count > 0)
                     {
-                        if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                        //remove item from performlist
+                        for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
-                            BSM.PerformList.Remove(BSM.PerformList[i]);
+                            if (i != 0)
+                            {
+                                if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                {
+                                    BSM.PerformList.Remove(BSM.PerformList[i]);
+                                }
+                                if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                {
+                                    BSM.PerformList[i].AttackersTarget = BSM.EnemiesInBattle[Random.Range(0, BSM.EnemiesInBattle.Count)];
+                                }
+                            }
                         }
                     }
                     //change color  / play animation
                     anim.SetTrigger("isDead");
-                    //reset heroinput
-
-
+                    
+                    //set alive false
                     alive = false;
+                    //reset enemybuttons
+                    BSM.EnemyButtons();
+                    //check alive
+                    BSM.battleStates = BattleStateMachine.PerformAction.Checkalive;
                     break;
                 }
         }
@@ -131,6 +160,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
     private IEnumerator TimeForAction()
     {
+        
         
         if (actionStarted)
         {
@@ -203,10 +233,41 @@ public class EnemyStateMachine : MonoBehaviour {
     public void TakeDamage(float getDamageAmount)
     {
         enemy.curHP -= getDamageAmount;
+        
         if(enemy.curHP <= 0)
         {
+            anim.SetTrigger("isDead");
             enemy.curHP = 0;
             currentState = TurnState.Dead;
         }
+        else
+        {
+            anim.SetBool("isHit", true);
+            StartCoroutine(TakeHit());
+        }
+        UpdateEnemyPanel();
+    }
+
+    IEnumerator TakeHit()
+    {
+        yield return new WaitForSeconds(1);
+        anim.SetBool("isHit", false);
+    }
+
+    void CreateEnemyPanel()
+    {
+        EnemyPanel = Instantiate(EnemyPanel) as GameObject;
+        stats = EnemyPanel.GetComponent<EnemyPanelStats>();
+        stats.EnemyName.text = enemy.theName;
+        stats.EnemyHP.text = "" + enemy.curHP + "/" + enemy.baseHP;
+        
+        EnemyPanel.transform.SetParent(EnemyPanelSpacer, false);
+
+    }
+
+    void UpdateEnemyPanel()
+    {
+        stats.EnemyHP.text = "" + enemy.curHP + "/" + enemy.baseHP;
+       
     }
 }
