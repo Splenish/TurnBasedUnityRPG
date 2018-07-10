@@ -22,7 +22,7 @@ public class EnemyUnit : Unit {
 		DontDestroyOnLoad (gameObject);
 		player = GameObject.Find ("Player");
 		gm = GameObject.Find ("GameManager");
-		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Length;
+		enemyUnits = gm.GetComponent<GameManager> ().enemyUnits.Count;
 		//remainingMovement = moveSpeed;
 		//currentUnit = this.gameObject;
 		anim = this.gameObject.GetComponent<Animator> ();

@@ -17,7 +17,11 @@ public class GameManager : MonoBehaviour
 
 	public int i = 0;
 
-	public GameObject[] enemyUnits;
+	//public GameObject[] enemyUnits;
+
+	public List<GameObject> enemyUnits;
+
+	public List<GameObject> battleEnemies;
 
 	GameObject player;
 
@@ -48,6 +52,12 @@ public class GameManager : MonoBehaviour
 	void Awake()
 	{
 
+
+
+		if (currentGameState == GameState.myTurn)
+			currentUnit = player;
+
+
 		Debug.Log (currentUnit);
 		Debug.Log (currentGameState);
 
@@ -73,8 +83,15 @@ public class GameManager : MonoBehaviour
 			SpawnEnemies ();
 
 
-			enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
-			Debug.Log (enemyUnits.Length);
+			//enemyUnits = GameObject.FindGameObjectsWithTag ("Enemy");
+
+			GameObject[] tempUnits = GameObject.FindGameObjectsWithTag ("Enemy");
+
+			foreach (GameObject unit in tempUnits) {
+				enemyUnits.Add (unit);
+			}
+
+			Debug.Log (enemyUnits.Count);
 
 		} else if(Instance != this) {
 			Destroy(gameObject);
@@ -100,9 +117,13 @@ public class GameManager : MonoBehaviour
 			break;
 
 		case GameState.enemyTurn:
-			currentUnit = enemyUnits [i];
+			if(i < enemyUnits.Count)
+				currentUnit = enemyUnits [i];
+			
 			if (currentUnit == null) {
-				i++;
+				Debug.Log ("skidaadle");
+				//currentGameState = GameState.myTurn;
+				//i++;
 			}
 			Debug.Log ("current unit gm: " + currentUnit);
 			if (enemyTurnStart) {
@@ -117,12 +138,14 @@ public class GameManager : MonoBehaviour
 
 	public void StartCombat(GameObject triggeredEnemy) {
 
-		battleEnemy = triggeredEnemy;
+		//battleEnemy = triggeredEnemy;
+
+		battleEnemies.Add (triggeredEnemy);
 
 		Debug.Log ("vomat");
 		player.SetActive (false);
 
-		for (int j = 0; j < enemyUnits.Length; j++) {
+		for (int j = 0; j < enemyUnits.Count; j++) {
 			enemyUnits [j].SetActive (false);
 		}
 
@@ -130,15 +153,15 @@ public class GameManager : MonoBehaviour
 	}
 
 	void SpawnEnemies() {
-		for (int i = 0; i < grid.GetLength (0); i++) {
+		for (int k = 0; k < grid.GetLength (0); k++) {
 			for (int j = 0; j < grid.GetLength (1); j++) {
-				if(grid[i,j].walkable && !(i < 8))
-					spawnPoints.Add (grid [i, j].worldPosition); 
+				if(grid[k,j].walkable && !(k < 8))
+					spawnPoints.Add (grid [k, j].worldPosition); 
 			}
 		}
 
 
-		for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 5; j++) {
 			int spawnPointIndex = Random.Range (0, spawnPoints.Count);
 			Instantiate (enemy, spawnPoints [spawnPointIndex], rotation);
 			spawnPoints.RemoveAt (spawnPointIndex);
@@ -151,11 +174,22 @@ public class GameManager : MonoBehaviour
 	public void ActivateUnits() {
 		//Destroy (enemyUnits [i]);
 
-		Destroy (battleEnemy);
+
+		for (int j = 0; j < battleEnemies.Count; j++) {
+			enemyUnits.Remove(battleEnemies[j]);
+			Destroy (battleEnemies[j]);
+		}
+		//enemyUnits.Remove(battleEnemy);
+
+		//Destroy (battleEnemy);
+
+		//enemyUnits.RemoveAt (i);
+
+		Debug.Log(enemyUnits.Count);
 
 		player.SetActive (true);
 
-		for (int j = 0; j < enemyUnits.Length; j++) {
+		for (int j = 0; j < enemyUnits.Count; j++) {
 			enemyUnits [j].SetActive (true);
 		}
 	}
